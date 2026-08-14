@@ -986,10 +986,14 @@
                                     <textarea id="multiKeysInput" class="mono" rows="4"
                                         placeholder="32260300016102445759550261203200013733476685&#10;32260100000372574718550260901200013679819790&#10;..."
                                         style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 5px; font-family: monospace; font-size: 12px; resize: vertical;"></textarea>
-                                    <div style="margin-top: 8px; display: flex; gap: 10px; flex-wrap: wrap;">
+                                    <div style="margin-top: 8px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: space-between;">
                                         <button type="button" class="btn btn-primary btn-sm"
                                             onclick="adicionarMultiplasChaves()">
                                             <i class="fas fa-plus-circle"></i> Adicionar Todas as Chaves
+                                        </button>
+                                        <button type="button" class="btn btn-secondary btn-sm"
+                                            onclick="visualizarTodasChavesGerais()">
+                                            <i class="fas fa-list"></i> Visualizar Todas as Chaves (Pasted + PDFs)
                                         </button>
                                     </div>
                                 </div>
@@ -1632,6 +1636,88 @@
             if (invalidas > 0) msg += `, ${invalidas} inválida(s)`;
 
             toast(msg, adicionadas > 0 ? 'success' : 'error');
+        }
+
+        function visualizarTodasChavesGerais() {
+            let todas = new Set();
+            
+            // Chaves coladas
+            notasLinks.forEach(n => {
+                if (n.chave && n.chave.length === 44) todas.add(n.chave);
+            });
+            
+            // Chaves extraídas de PDF
+            notasProcessadas.forEach(n => {
+                if (n.chave && n.chave.length === 44) todas.add(n.chave);
+            });
+
+            const lista = Array.from(todas).join('\n');
+            if (lista.length === 0) {
+                toast('Nenhuma chave de acesso (44 dígitos) foi encontrada no sistema.', 'warning');
+                return;
+            }
+
+            // Criar modal dinâmico
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '0'; modal.style.left = '0'; modal.style.width = '100%'; modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.6)';
+            modal.style.zIndex = '9999';
+            modal.style.display = 'flex';
+            modal.style.alignItems = 'center';
+            modal.style.justifyContent = 'center';
+
+            const content = document.createElement('div');
+            content.style.backgroundColor = 'white';
+            content.style.padding = '20px';
+            content.style.borderRadius = '8px';
+            content.style.width = '500px';
+            content.style.maxWidth = '90%';
+            content.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)';
+
+            const title = document.createElement('h3');
+            title.innerHTML = `<i class="fas fa-list"></i> Todas as Chaves (${todas.size})`;
+            title.style.marginTop = '0';
+            title.style.marginBottom = '15px';
+            content.appendChild(title);
+
+            const textarea = document.createElement('textarea');
+            textarea.value = lista;
+            textarea.style.width = '100%';
+            textarea.style.height = '200px';
+            textarea.style.marginBottom = '15px';
+            textarea.style.fontFamily = 'monospace';
+            textarea.style.padding = '10px';
+            textarea.style.borderRadius = '4px';
+            textarea.style.border = '1px solid #ccc';
+            textarea.readOnly = true;
+            content.appendChild(textarea);
+
+            const divBtns = document.createElement('div');
+            divBtns.style.display = 'flex';
+            divBtns.style.gap = '10px';
+            divBtns.style.justifyContent = 'flex-end';
+
+            const btnCopy = document.createElement('button');
+            btnCopy.innerHTML = '<i class="fas fa-copy"></i> Copiar Todas';
+            btnCopy.className = 'btn btn-primary';
+            btnCopy.onclick = () => {
+                textarea.select();
+                document.execCommand('copy');
+                toast('Chaves copiadas para a área de transferência!', 'success');
+                modal.remove();
+            };
+            divBtns.appendChild(btnCopy);
+
+            const btnClose = document.createElement('button');
+            btnClose.innerHTML = '<i class="fas fa-times"></i> Fechar';
+            btnClose.className = 'btn btn-secondary';
+            btnClose.onclick = () => modal.remove();
+            divBtns.appendChild(btnClose);
+
+            content.appendChild(divBtns);
+            modal.appendChild(content);
+            document.body.appendChild(modal);
         }
 
         function renderizarLinks() {
