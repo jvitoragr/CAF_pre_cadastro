@@ -67,18 +67,27 @@ Instale a extensão no seu navegador de preferência:
 
 ### 2. Instalar o Script do CAF Assistente
 
-Escolha uma das opções abaixo para instalar o script no seu navegador:
+Escolha uma das opções abaixo para instalar o script no Tampermonkey:
 
-#### ⚡ Opção 1: Instalação Direta com 1 Clique (Recomendado)
-Com a extensão Tampermonkey já instalada no navegador, basta clicar no link abaixo:
-* 👉 **[Clique aqui para instalar o CAF Assistente (Link Direto)](https://github.com/jvitoragr/CAF_pre_cadastro/raw/refs/heads/main/CAF_Assistente_V5_Pronto.js)**
-*(O Tampermonkey abrirá automaticamente a tela de confirmação. Clique em **"Instalar"**).*
+#### ⚡ Opção 1: Instalação Automática via URL (Recomendado)
 
-#### 🛠️ Opção 2: Instalação Manual
+1. Copie a URL direta do script abaixo:
+   ```text
+   https://github.com/jvitoragr/CAF_pre_cadastro/raw/refs/heads/main/CAF_Assistente_V5_Pronto.js
+   ```
+2. No seu navegador, clique no ícone do **Tampermonkey** e abra o **Painel de Controle** (*Dashboard*).
+3. Clique na aba **Utilitários** (*Utilities*).
+4. Na seção **"Instalar de URL"** (*Install from URL*), cole o link copiado no campo de texto e clique no botão **Instalar**.
+5. Na tela seguinte de confirmação do script, clique em **Instalar** (ou *Confirmar Instalação*).
+
+---
+
+#### 🛠️ Opção 2: Instalação Manual (Copiar e Colar)
+
 1. Abra o arquivo [`CAF_Assistente_V5_Pronto.js`](CAF_Assistente_V5_Pronto.js) no repositório.
 2. Clique no botão **Raw** (ou selecione e copie todo o código).
-3. Abra o ícone do **Tampermonkey** no navegador e clique em **Criar novo script...** (ou *Dashboard* ➔ *+*).
-4. Cole o código copiado, substituindo qualquer texto existente, e pressione `Ctrl + S` para salvar.
+3. Abra o ícone do **Tampermonkey** no navegador e clique em **Criar novo script...** (ícone de **+**).
+4. Apague qualquer código existente no editor, cole o código copiado e pressione `Ctrl + S` para salvar.
 
 ---
 
