@@ -139,11 +139,13 @@ Com os dados carregados no assistente (via arquivo JSON fornecido pelo agriculto
 
 ---
 
-## 👨‍💻 Desenvolvedor
+## 👨‍💻 Desenvolvedor e Idealização
 
-**João Vitor Toledo**  
-*Engenheiro Agrônomo, Mestre em Produção Vegetal, Doutor em Meteorologia Agrícola*  
-GitHub: [@jvitoragr](https://github.com/jvitoragr)
+* **Idealização e Desenvolvimento:** **João Vitor Toledo**  
+  *Engenheiro Agrônomo, Mestre em Produção Vegetal, Doutor em Meteorologia Agrícola*  
+  GitHub: [@jvitoragr](https://github.com/jvitoragr)
+* **Auxílio de Inteligência Artificial & Engenharia de Software:**  
+  *Desenvolvido com o suporte do modelo **Gemini 2.5 Flash** através da plataforma **Antigravity IDE**.*
 
 ---
 
