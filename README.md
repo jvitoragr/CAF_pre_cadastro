@@ -65,40 +65,35 @@ Instale a extensão no seu navegador de preferência:
 
 ---
 
-### 2. Instalar o Script `CAF_Assistente_V5_Pronto.js`
-1. Abra o arquivo [`CAF_Assistente_V5_Pronto.js`](CAF_Assistente_V5_Pronto.js) aqui no repositório.
+### 2. Instalar o Script do CAF Assistente
+
+Escolha uma das opções abaixo para instalar o script no seu navegador:
+
+#### ⚡ Opção 1: Instalação Direta com 1 Clique (Recomendado)
+Com a extensão Tampermonkey já instalada no navegador, basta clicar no link abaixo:
+* 👉 **[Clique aqui para instalar o CAF Assistente (Link Direto)](https://github.com/jvitoragr/CAF_pre_cadastro/raw/refs/heads/main/CAF_Assistente_V5_Pronto.js)**
+*(O Tampermonkey abrirá automaticamente a tela de confirmação. Clique em **"Instalar"**).*
+
+#### 🛠️ Opção 2: Instalação Manual
+1. Abra o arquivo [`CAF_Assistente_V5_Pronto.js`](CAF_Assistente_V5_Pronto.js) no repositório.
 2. Clique no botão **Raw** (ou selecione e copie todo o código).
 3. Abra o ícone do **Tampermonkey** no navegador e clique em **Criar novo script...** (ou *Dashboard* ➔ *+*).
 4. Cole o código copiado, substituindo qualquer texto existente, e pressione `Ctrl + S` para salvar.
 
 ---
 
-### 3. Utilizar no Portal Oficial do CAF
-
-Acesse o sistema oficial do CAF: [https://caf.mda.gov.br/](https://caf.mda.gov.br/). O assistente será exibido como um **painel inteligente flutuante** no canto inferior da tela.
-
----
-
-### ⚡ Destaque: Uso com ou SEM Arquivo JSON Prévio
-
-> [!TIP]
-> **O CAF Assistente funciona mesmo que o agricultor NÃO traga um arquivo JSON prévio!**  
-> Caso você esteja realizando o atendimento presencial e precise apenas processar notas fiscais e calcular a renda:
-> 1. No painel flutuante do assistente, clique no botão **"Editar" / "Coleta de Dados"**.
-> 2. Uma janela integrada do formulário será aberta.
-> 3. Vá direto na **Aba 5 (Renda e Produção)** e faça o upload em lote de todos os arquivos PDF de DANFEs ou cole as chaves de acesso.
-> 4. O sistema extrai automaticamente os produtos, valores e calcula a síntese da produção.
-> 5. Clique em **"Salvar Edição"** no topo da janela: os dados e documentos são **injetados instantaneamente de volta no CAF Assistente**.
-> 6. Agora, basta utilizar o assistente no portal do CAF para preencher toda a renda e realizar o upload em lote dos PDFs automaticamente!
+### 3. Acessar o Portal Oficial do CAF
+Acesse o sistema oficial do CAF: [https://caf.mda.gov.br/](https://caf.mda.gov.br/).  
+O assistente será exibido como um **painel inteligente flutuante** no canto inferior da tela.
 
 ---
 
 ### 4. Automação por Abas no Portal Oficial do CAF
 
-Com os dados carregados (via arquivo JSON ou via botão Editar), utilize os comandos rápidos do painel do assistente em cada etapa:
+Com os dados carregados no assistente (via arquivo JSON fornecido pelo agricultor ou via formulário integrado), utilize os comandos rápidos do painel em cada etapa:
 
 * 👥 **Aba 1 (Pessoas / Membros):**
-  * Preenchimento automático de CPF, consulta à Receita Federal, preenchimento de datas, estado civil, escolaridade, sexo, gênero, raça e documentos.
+  * Preenchimento automático de CPF, consulta automática à Receita Federal, preenchimento de datas, estado civil, escolaridade, sexo, gênero, raça, dados de nascimento e documentos.
 * 📍 **Aba 2 (Endereço da UFPA):**
   * Preenchimento de CEP, UF, Município, Logradouro, Bairro e marcação automática de "Sem número".
 * 🏞️ **Aba 3 (Áreas e Imóveis Rurais):**
@@ -107,6 +102,21 @@ Com os dados carregados (via arquivo JSON ou via botão Editar), utilize os coma
   * Insere os trabalhadores contratados permanentes e temporários (homem/dia).
 * 🌾 **Aba 5 (Renda e Produção):**
   * Preenchimento automático da grade de produtos, enquadramentos de renda e upload em lote de todas as notas fiscais comprobatórias.
+
+---
+
+> [!TIP]
+> ### ⚡ Destaque: Uso SEM Arquivo JSON Prévio
+> 
+> O **CAF Assistente funciona perfeitamente mesmo se o agricultor NÃO tiver um arquivo JSON prévio!**  
+> Caso você esteja realizando um atendimento presencial avulso e precise apenas extrair produtos de dezenas de DANFEs, calcular a renda e fazer o upload dos arquivos:
+> 
+> 1. No painel flutuante do assistente dentro do portal do CAF, clique no botão **"Editar" / "Coleta de Dados"**.
+> 2. A janela integrada de coleta de dados será aberta.
+> 3. Vá direto na **Aba 5 (Renda e Produção)** e faça o upload em lote de todos os arquivos PDF de DANFEs ou cole links/chaves de acesso.
+> 4. O sistema processa tudo na hora: extrai os produtos, calcula os totais e gera a síntese anual da produção.
+> 5. Clique em **"Salvar Edição"** na **parte inferior (rodapé) da janela**: todos os dados e arquivos PDF são **injetados instantaneamente de volta no CAF Assistente**.
+> 6. Retorne à aba do portal do CAF e utilize as automações do assistente para preencher toda a grade de renda e realizar o upload em lote dos PDFs das notas fiscais em poucos segundos!
 
 ---
 
