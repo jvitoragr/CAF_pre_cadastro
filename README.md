@@ -11,7 +11,7 @@ Solução completa para coleta, validação prévia e automação no preenchimen
 O **Pré-Cadastro CAF** é uma aplicação de apoio e facilitação de atendimento. Ele permite que o agricultor ou técnico preencha antecipadamente todos os dados cadastrais da família, endereço, áreas exploradas, mão de obra e notas fiscais de comercialização da produção, gerando um arquivo estruturado em formato `.json` que pode ser facilmente importado e conferido pelo **cadastrador oficial**.
 
 > [!IMPORTANT]
-> **Natureza Preparatória:** O preenchimento deste formulário constitui exclusivamente uma etapa de pré-cadastro e coleta prévia de informações. Ele **não substitui, não homologa e não emite o CAF oficial**, que deve ser formalizado e homologado diretamente por um cadastrador autorizado no sistema oficial do Governo Federal.
+> **Natureza Preparatória:** O preenchimento deste formulário constitui exclusivamente uma etapa de pré-cadastro e coleta prévia de informações. Ele **não substitui, não homologa e não emite o CAF oficial**, que deve ser formalizado e homologado presencialmente por um cadastrador autorizado no sistema oficial do Governo Federal.
 
 ---
 
@@ -29,7 +29,7 @@ flowchart LR
 1. **Preenchimento dos Dados:** O usuário insere as informações familiares, endereço da UFPA, dados da propriedade, coordenadas, mão de obra e notas fiscais de comercialização.
 2. **Conferência e Declaração:** O usuário revisa as informações e confirma as declarações obrigatórias de veracidade (Art. 299 do Código Penal) e ciência sobre o tratamento e armazenamento dos dados.
 3. **Geração do Arquivo Local (`.json`):** Ao clicar em **"Salvar como"**, o sistema gera um arquivo seguro no padrão `Pré Cadastro CAF - [Nome do Declarante].json` e realiza o download diretamente para o dispositivo.
-4. **Atendimento Oficial:** O arquivo gerado é entregue ou transmitido ao cadastrador oficial do CAF (ex: técnicos do Incaper, sindicatos ou entidades credenciadas) para validação e inserção no portal oficial.
+4. **Atendimento Oficial:** O arquivo gerado é apresentado ao cadastrador oficial do CAF (ex: técnicos do Incaper, sindicatos ou entidades credenciadas) para conferência, validação e inserção no portal oficial.
 
 ---
 
@@ -73,7 +73,7 @@ Escolha uma das opções abaixo para instalar o script no Tampermonkey:
 
 1. Copie a URL direta do script abaixo:
    ```text
-   https://github.com/jvitoragr/CAF_pre_cadastro/raw/refs/heads/main/CAF_Assistente_V5_Pronto.js
+   https://raw.githubusercontent.com/jvitoragr/CAF_pre_cadastro/refs/heads/main/CAF_Assistente_V1.1.js
    ```
 2. No seu navegador, clique no ícone do **Tampermonkey** e abra o **Painel de Controle** (*Dashboard*).
 3. Clique na aba **Utilitários** (*Utilities*).
@@ -84,7 +84,7 @@ Escolha uma das opções abaixo para instalar o script no Tampermonkey:
 
 #### 🛠️ Opção 2: Instalação Manual (Copiar e Colar)
 
-1. Abra o arquivo [`CAF_Assistente_V5_Pronto.js`](CAF_Assistente_V5_Pronto.js) no repositório.
+1. Abra o arquivo [`CAF_Assistente_V1.1.js`](CAF_Assistente_V1.1.js) no repositório.
 2. Clique no botão **Raw** (ou selecione e copie todo o código).
 3. Abra o ícone do **Tampermonkey** no navegador e clique em **Criar novo script...** (ícone de **+**).
 4. Apague qualquer código existente no editor, cole o código copiado e pressione `Ctrl + S` para salvar.
@@ -117,14 +117,14 @@ Com os dados carregados no assistente (via arquivo JSON fornecido pelo agriculto
 > [!TIP]
 > ### ⚡ Destaque: Uso SEM Arquivo JSON Prévio
 > 
-> O **CAF Assistente funciona perfeitamente mesmo se o agricultor NÃO tiver um arquivo JSON prévio!**  
-> Caso você esteja realizando um atendimento presencial avulso e precise apenas extrair produtos de dezenas de DANFEs, calcular a renda e fazer o upload dos arquivos:
+> O **CAF Assistente funciona perfeitamente mesmo se o agricultor não tiver realizado o pré-cadastro ou não possuir um arquivo JSON!**  
+> No momento do cadastramento oficial presencial, caso o cadastrador precise apenas processar as notas fiscais da produção, calcular a renda anual e anexar os comprovantes:
 > 
 > 1. No painel flutuante do assistente dentro do portal do CAF, clique no botão **"Editar" / "Coleta de Dados"**.
 > 2. A janela integrada de coleta de dados será aberta.
-> 3. Vá direto na **Aba 5 (Renda e Produção)** e faça o upload em lote de todos os arquivos PDF de DANFEs ou cole links/chaves de acesso.
-> 4. O sistema processa tudo na hora: extrai os produtos, calcula os totais e gera a síntese anual da produção.
-> 5. Clique em **"Salvar Edição"** na **parte inferior (rodapé) da janela**: todos os dados e arquivos PDF são **injetados instantaneamente de volta no CAF Assistente**.
+> 3. Vá direto na **Aba 5 (Renda e Produção)** e faça o upload em lote de todos os arquivos PDF de DANFEs ou cole as chaves de acesso / links das notas.
+> 4. O sistema processa tudo na hora: extrai os produtos, calcula os totais e gera a síntese anual da produção com os devidos enquadramentos do CAF.
+> 5. Clique em **"Salvar Edição"** na **parte inferior (rodapé) da janela**: todos os dados consolidados e os arquivos PDF são **injetados instantaneamente de volta no CAF Assistente**.
 > 6. Retorne à aba do portal do CAF e utilize as automações do assistente para preencher toda a grade de renda e realizar o upload em lote dos PDFs das notas fiscais em poucos segundos!
 
 ---
