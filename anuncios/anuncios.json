@@ -1,0 +1,20 @@
+[
+  {
+    "id": "anuncio_agro_pinheiros",
+    "titulo": "Agro Pinheiros - Insumos & Mudas",
+    "descricao": "Mudas de café, insumos e condições especiais para produtores do CAF.",
+    "imagem": "https://raw.githubusercontent.com/jvitoragr/CAF_pre_cadastro/main/anuncios/banner_demo.svg",
+    "link": "https://wa.me/5527999999999?text=Ol%C3%A1,%20vi%20o%20anuncio%20no%20CAF%20Assistente!",
+    "tempo_segundos": 20,
+    "ativo": true
+  },
+  {
+    "id": "anuncio_espaco_livre",
+    "titulo": "Anuncie Aqui sua Empresa",
+    "descricao": "Alcance centenas de cadastradores e técnicos do CAF diariamente.",
+    "imagem": "",
+    "link": "https://wa.me/5527999999999?text=Gostaria%20de%20anunciar%20no%20CAF%20Assistente",
+    "tempo_segundos": 15,
+    "ativo": true
+  }
+]
