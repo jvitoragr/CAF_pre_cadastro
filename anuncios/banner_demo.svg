@@ -1,38 +1,48 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 350" width="600" height="350">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
   <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#064e3b;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#022c22;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#04382c;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#02221b;stop-opacity:1" />
     </linearGradient>
     <linearGradient id="btnGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
       <stop offset="100%" style="stop-color:#d97706;stop-opacity:1" />
     </linearGradient>
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.3"/>
+    </filter>
   </defs>
   
-  <rect width="600" height="350" rx="16" fill="url(#grad)" stroke="#10b981" stroke-width="2" />
+  <rect width="500" height="500" rx="20" fill="url(#bgGrad)" />
   
-  <!-- Círculos decorativos -->
-  <circle cx="530" cy="70" r="90" fill="#10b981" opacity="0.1" />
-  <circle cx="70" cy="300" r="110" fill="#059669" opacity="0.15" />
+  <!-- Círculos decorativos de fundo -->
+  <circle cx="420" cy="80" r="120" fill="#10b981" opacity="0.12" />
+  <circle cx="60" cy="420" r="140" fill="#059669" opacity="0.15" />
+  <circle cx="250" cy="250" r="180" fill="#34d399" opacity="0.04" />
   
-  <!-- Selo Patrocinador -->
-  <rect x="30" y="25" width="120" height="24" rx="12" fill="#10b981" fill-opacity="0.25" stroke="#34d399" stroke-width="1" />
-  <text x="90" y="41" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" fill="#6ee7b7" text-anchor="middle">PARCEIRO OFICIAL</text>
+  <!-- Selo Patrocinador Oficial -->
+  <rect x="35" y="35" width="135" height="28" rx="14" fill="#10b981" fill-opacity="0.25" stroke="#34d399" stroke-width="1.5" />
+  <text x="102" y="53" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="800" fill="#6ee7b7" text-anchor="middle" letter-spacing="0.5">PARCEIRO CAF</text>
   
-  <!-- Título do Anúncio -->
-  <text x="30" y="90" font-family="-apple-system, sans-serif" font-size="26" font-weight="800" fill="#ffffff">AGRO PINHEIROS</text>
-  <text x="30" y="118" font-family="-apple-system, sans-serif" font-size="16" font-weight="600" fill="#a7f3d0">Insumos, Mudas de Café &amp; Consultoria</text>
+  <!-- Ícone em destaque -->
+  <text x="250" y="145" font-family="-apple-system, sans-serif" font-size="64" text-anchor="middle">🌱</text>
   
-  <!-- Descrição -->
-  <text x="30" y="165" font-family="-apple-system, sans-serif" font-size="14" fill="#cbd5e1">✓ Adubação especializada e análise de solo</text>
-  <text x="30" y="195" font-family="-apple-system, sans-serif" font-size="14" fill="#cbd5e1">✓ Condições especiais com Pronaf e CAF</text>
-  <text x="30" y="225" font-family="-apple-system, sans-serif" font-size="14" fill="#cbd5e1">✓ Atendimento em todo o Espírito Santo</text>
+  <!-- Título Principal -->
+  <text x="250" y="195" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">AGRO PINHEIROS</text>
+  <text x="250" y="225" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600" fill="#a7f3d0" text-anchor="middle">Mudas de Café &amp; Nutrição Foliar</text>
   
-  <!-- Botão de Ação -->
-  <rect x="30" y="265" width="220" height="48" rx="12" fill="url(#btnGrad)" />
-  <text x="140" y="295" font-family="-apple-system, sans-serif" font-size="15" font-weight="700" fill="#0f172a" text-anchor="middle">Falar no WhatsApp ➔</text>
+  <!-- Linha divisória sutil -->
+  <line x1="80" y1="248" x2="420" y2="248" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
   
-  <!-- Ícone/Marca -->
-  <text x="500" y="295" font-family="-apple-system, sans-serif" font-size="60" text-anchor="middle">🌱</text>
+  <!-- Benefícios / Itens -->
+  <text x="70" y="285" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="500" fill="#e2e8f0">✓ Variedades Conilon e Arábica</text>
+  <text x="70" y="320" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="500" fill="#e2e8f0">✓ Análise de Solo e Assistência</text>
+  <text x="70" y="355" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="500" fill="#e2e8f0">✓ Descontos Especiais Pronaf/CAF</text>
+  
+  <!-- Botão de Ação Chamativo -->
+  <g filter="url(#dropShadow)">
+    <rect x="60" y="395" width="380" height="58" rx="16" fill="url(#btnGrad)" />
+    <text x="250" y="432" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="17" font-weight="800" fill="#0f172a" text-anchor="middle">Chamar no WhatsApp ➔</text>
+  </g>
 </svg>
