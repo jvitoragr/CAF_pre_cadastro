@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CAF - Assistente Inteligente
 // @namespace    http://tampermonkey.net/
-// @version      5.0
+// @version      1.1
 // @description  Assistente automatizado com interface flutuante para preenchimento dos formulários do CAF (Cadastro Nacional da Agricultura Familiar) baseados no arquivo JSON de pré-cadastro.
 // @author       Antigravity & João Vitor Toledo
 // @match        https://caf.mda.gov.br/*
