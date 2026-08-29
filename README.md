@@ -2,7 +2,20 @@
 
 Solução completa para coleta, validação prévia e automação no preenchimento do **Cadastro Nacional da Agricultura Familiar (CAF)**, composta por:
 1. **Portal Web de Pré-Cadastro:** Formulário para agricultores e técnicos coletarem, conferirem e estruturarem as informações da Unidade Familiar de Produção Agrária (UFPA).
-2. **CAF Assistente (Userscript Tampermonkey):** Painel inteligente para cadastradores oficiais automatizarem a inserção dos dados diretamente no sistema oficial do Governo Federal.
+2. **CAF Assistente (Extensão de Navegador & Userscript):** Painel inteligente para cadastradores oficiais automatizarem a inserção dos dados diretamente no sistema oficial do Governo Federal.
+
+---
+
+## 🚀 Como Instalar o CAF Assistente
+
+> [!TIP]
+> ### 📥 Guia Passo a Passo de Instalação
+> Para baixar os pacotes da extensão ou instalar via Tampermonkey, acesse nosso guia completo e ilustrado:  
+> 👉 **[Clique aqui para acessar o Guia de Instalação (Instalação/COMO_INSTALAR.md)](Instala%C3%A7%C3%A3o/COMO_INSTALAR.md)**
+
+* 🦊 **Mozilla Firefox:** [Download CAF_Assistente_Firefox.zip](https://raw.githubusercontent.com/jvitoragr/CAF_pre_cadastro/main/Instala%C3%A7%C3%A3o/Extens%C3%A3o%20para%20Navegadores/CAF_Assistente_Firefox.zip)
+* 🌐 **Google Chrome / Edge / Brave / Opera:** [Download CAF_Assistente_Chrome_Edge.zip](https://raw.githubusercontent.com/jvitoragr/CAF_pre_cadastro/main/Instala%C3%A7%C3%A3o/Extens%C3%A3o%20para%20Navegadores/CAF_Assistente_Chrome_Edge.zip)
+* 🐒 **Tampermonkey (Userscript):** Disponível na pasta [Instalação/Script Tampermonkey](Instala%C3%A7%C3%A3o/Script%20Tampermonkey/).
 
 ---
 
@@ -15,7 +28,7 @@ O **Pré-Cadastro CAF** é uma aplicação de apoio e facilitação de atendimen
 
 ---
 
-## 🚀 Como Funciona o Fluxo
+## 🔄 Como Funciona o Fluxo
 
 ```mermaid
 flowchart LR
@@ -45,72 +58,23 @@ flowchart LR
 ## 📋 Estrutura dos Módulos do Formulário
 
 * **1. Membros da Família:** Identificação do titular e dos demais integrantes da UFPA (CPF, Nascimento, Sexo, Identidade de Gênero, Estado Civil, Cor/Raça, Escolaridade, UF e Município de Nascimento, Parentesco, Trabalho na UFPA, Telefone e Documentos de Identidade).
-* **2. Endereço da UFPA:** Localização do estabelecimento principal com busca automática por CEP (ViaCEP) e padronização oficial de UFs e Municípios.
-* **3. Áreas e Imóveis Rurais:** Condição de posse, tipo de área, tamanho em hectares/m³, dados do proprietário (quando não for proprietário exclusivo), coordenadas geográficas e anexo de documento comprobatório em PDF.
+* **2. Endereço da UFPA:** Localização do estabelecimento principal com busca automática por CEP e padronização oficial de UFs e Municípios.
+* **3. Áreas e Imóveis Rurais:** Condição de posse, tipo de área, tamanho em hectares/m³, dados do proprietário, coordenadas geográficas e anexo de documento comprobatório em PDF.
 * **4. Mão de Obra na UFPA:** Cadastro de trabalhadores contratados permanentes ou temporários (homem/dia).
 * **5. Renda da Propriedade e Documentos Fiscais:** Upload de DANFEs em PDF, importação de chaves de acesso da NF-e e síntese dinâmica da produção comercializada com enquadramentos oficiais do CAF.
 * **Declaração, Ciência e Proteção de Dados:** Termo de veracidade (Art. 299 CP) e ciência sobre o uso dos dados com modal de confirmação prévia ao salvamento.
 
 ---
 
-## 🤖 Guia do Cadastrador: Como Utilizar o CAF Assistente
+## 🤖 Automações do CAF Assistente no Portal Oficial
 
-O **CAF Assistente** é um userscript executado diretamente no navegador pelo cadastrador oficial através da extensão **Tampermonkey**.
+Com o assistente instalado e os dados carregados (via arquivo JSON ou via janela de coleta integrada), utilize os comandos rápidos do painel flutuante em cada etapa do portal oficial [caf.mda.gov.br](https://caf.mda.gov.br/):
 
-### 1. Instalar a Extensão Tampermonkey
-Instale a extensão no seu navegador de preferência:
-* [Tampermonkey para Google Chrome](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
-* [Tampermonkey para Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd)
-* [Tampermonkey para Mozilla Firefox](https://addons.mozilla.org/pt-BR/firefox/addon/tampermonkey/)
-
----
-
-### 2. Instalar o Script do CAF Assistente
-
-Escolha uma das opções abaixo para instalar o script no Tampermonkey:
-
-#### ⚡ Opção 1: Instalação Automática via URL (Recomendado)
-
-1. Copie a URL direta do script abaixo:
-   ```text
-   https://raw.githubusercontent.com/jvitoragr/CAF_pre_cadastro/refs/heads/main/CAF_Assistente_V1.1.js
-   ```
-2. No seu navegador, clique no ícone do **Tampermonkey** e abra o **Painel de Controle** (*Dashboard*).
-3. Clique na aba **Utilitários** (*Utilities*).
-4. Na seção **"Instalar de URL"** (*Install from URL*), cole o link copiado no campo de texto e clique no botão **Instalar**.
-5. Na tela seguinte de confirmação do script, clique em **Instalar** (ou *Confirmar Instalação*).
-
----
-
-#### 🛠️ Opção 2: Instalação Manual (Copiar e Colar)
-
-1. Abra o arquivo [`CAF_Assistente_V1.1.js`](CAF_Assistente_V1.1.js) no repositório.
-2. Clique no botão **Raw** (ou selecione e copie todo o código).
-3. Abra o ícone do **Tampermonkey** no navegador e clique em **Criar novo script...** (ícone de **+**).
-4. Apague qualquer código existente no editor, cole o código copiado e pressione `Ctrl + S` para salvar.
-
----
-
-### 3. Acessar o Portal Oficial do CAF
-Acesse o sistema oficial do CAF: [https://caf.mda.gov.br/](https://caf.mda.gov.br/).  
-O assistente será exibido como um **painel inteligente flutuante** no canto inferior da tela.
-
----
-
-### 4. Automação por Abas no Portal Oficial do CAF
-
-Com os dados carregados no assistente (via arquivo JSON fornecido pelo agricultor ou via formulário integrado), utilize os comandos rápidos do painel em cada etapa:
-
-* 👥 **Aba 1 (Pessoas / Membros):**
-  * Preenchimento automático de CPF, consulta automática à Receita Federal, preenchimento de datas, estado civil, escolaridade, sexo, gênero, raça, dados de nascimento e documentos.
-* 📍 **Aba 2 (Endereço da UFPA):**
-  * Preenchimento de CEP, UF, Município, Logradouro, Bairro e marcação automática de "Sem número".
-* 🏞️ **Aba 3 (Áreas e Imóveis Rurais):**
-  * Preenche condição de posse, tipo de área, tamanho com formatação decimal precisa em hectares, dados de proprietários e anexa automaticamente o PDF comprobatório embutido.
-* 🚜 **Aba 4 (Mão de Obra):**
-  * Insere os trabalhadores contratados permanentes e temporários (homem/dia).
-* 🌾 **Aba 5 (Renda e Produção):**
-  * Preenchimento automático da grade de produtos, enquadramentos de renda e upload em lote de todas as notas fiscais comprobatórias.
+* 👥 **Aba 1 (Grupo Familiar):** Preenchimento automático de CPF, consulta à Receita Federal, estado civil, escolaridade, gênero, raça, dados de nascimento e verificação reativa dos membros cadastrados.
+* 📍 **Aba 2 (Endereço da UFPA):** Preenchimento instantâneo de CEP, UF, Município, Logradouro, Bairro e número.
+* 🏞️ **Aba 3 (Áreas e Imóveis Rurais):** Preenche condição de posse, tipo de área, tamanho decimal exato, anexa PDF comprobatório e conta com **Mapa de Satélite Híbrido ampliado (650px)** para localização precisa.
+* 🚜 **Aba 4 (Mão de Obra):** Insere trabalhadores permanentes e temporários (homem/dia).
+* 🌾 **Aba 5 (Renda e Produção):** Inserção em lote da grade de produtos, enquadramentos de renda e upload individual ou em lote de notas fiscais com detecção anti-duplicidade.
 
 ---
 
@@ -120,22 +84,21 @@ Com os dados carregados no assistente (via arquivo JSON fornecido pelo agriculto
 > O **CAF Assistente funciona perfeitamente mesmo se o agricultor não tiver realizado o pré-cadastro ou não possuir um arquivo JSON!**  
 > No momento do cadastramento oficial presencial, caso o cadastrador precise apenas processar as notas fiscais da produção, calcular a renda anual e anexar os comprovantes:
 > 
-> 1. No painel flutuante do assistente dentro do portal do CAF, clique no botão **"Editar" / "Coleta de Dados"**.
-> 2. A janela integrada de coleta de dados será aberta.
-> 3. Vá direto na **Aba 5 (Renda e Produção)** e faça o upload em lote de todos os arquivos PDF de DANFEs ou cole as chaves de acesso / links das notas.
-> 4. O sistema processa tudo na hora: extrai os produtos, calcula os totais e gera a síntese anual da produção com os devidos enquadramentos do CAF.
-> 5. Clique em **"Salvar Edição"** na **parte inferior (rodapé) da janela**: todos os dados consolidados e os arquivos PDF são **injetados instantaneamente de volta no CAF Assistente**.
-> 6. Retorne à aba do portal do CAF e utilize as automações do assistente para preencher toda a grade de renda e realizar o upload em lote dos PDFs das notas fiscais em poucos segundos!
+> 1. No painel flutuante do assistente dentro do portal do CAF, clique no botão **"Editar" / "Coleta de Dados" (✏️)**.
+> 2. Vá direto na **Aba 5 (Renda e Produção)** e faça o upload em lote de todos os arquivos PDF de DANFEs ou cole as chaves de acesso / links das notas.
+> 3. O sistema processa tudo na hora: extrai os produtos, calcula os totais e gera a síntese anual da produção com os devidos enquadramentos do CAF.
+> 4. Clique em **"Salvar Edição"** no rodapé: todos os dados consolidados e os arquivos PDF são **injetados instantaneamente de volta no CAF Assistente**.
+> 5. Retorne à tela do CAF e utilize as automações do assistente para preencher a grade de renda e anexar os PDFs em poucos segundos!
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
 * **HTML5 / CSS3 Moderno** (Interface responsiva e acessível)
-* **JavaScript (Vanilla)** (Processamento client-side, manipulação de DOM e integração Tampermonkey)
+* **JavaScript (Vanilla)** (Processamento client-side, manipulação de DOM e arquitetura WebExtensions / Userscript)
+* **[Leaflet & Google Maps Hybrid Tiles](https://leafletjs.com/)** (Renderização de mapas de satélite de alta definição)
 * **[PDF.js](https://mozilla.github.io/pdf.js/)** (Leitura e extração local de dados de DANFEs em PDF)
-* **[ViaCEP](https://viacep.com.br/)** (Consulta de endereços por CEP)
-* **[Font Awesome](https://fontawesome.com/)** (Iconografia)
+* **[ViaCEP](https://viacep.com.br/)** (Consulta de endereços por CEP com banco offline integrado)
 
 ---
 
@@ -145,7 +108,7 @@ Com os dados carregados no assistente (via arquivo JSON fornecido pelo agriculto
   *Engenheiro Agrônomo, Mestre em Produção Vegetal, Doutor em Meteorologia Agrícola*  
   GitHub: [@jvitoragr](https://github.com/jvitoragr)
 * **Auxílio de Inteligência Artificial & Engenharia de Software:**  
-  *Desenvolvido com o suporte do modelo **Gemini 2.5 Flash** através da plataforma **Antigravity IDE**.*
+  *Desenvolvido com o suporte do modelo **Gemini 3.7 Flash** através da plataforma **Antigravity IDE**.*
 
 ---
 
