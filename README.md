@@ -15,7 +15,7 @@ Solução completa para coleta, validação prévia e automação no preenchimen
 
 * 🦊 **Mozilla Firefox:** [Download CAF_Assistente_Firefox.zip](https://raw.githubusercontent.com/jvitoragr/CAF_pre_cadastro/main/Instala%C3%A7%C3%A3o/Extens%C3%A3o%20para%20Navegadores/CAF_Assistente_Firefox.zip)
 * 🌐 **Google Chrome / Edge / Brave / Opera:** [Download CAF_Assistente_Chrome_Edge.zip](https://raw.githubusercontent.com/jvitoragr/CAF_pre_cadastro/main/Instala%C3%A7%C3%A3o/Extens%C3%A3o%20para%20Navegadores/CAF_Assistente_Chrome_Edge.zip)
-* 🐒 **Tampermonkey (Userscript):** [Instalação Direta (CAF_Assistente_Protegido.js)](https://raw.githubusercontent.com/jvitoragr/CAF_pre_cadastro/refs/heads/main/Instala%C3%A7%C3%A3o/Script%20Tampermonkey/CAF_Assistente_Protegido.js) (ou disponível na pasta [Instalação/Script Tampermonkey](https://github.com/jvitoragr/CAF_pre_cadastro/blob/main/Instala%C3%A7%C3%A3o/Script%20Tampermonkey)).
+* 🐒 **Tampermonkey (Userscript):** [Copie este link para CAF_Assistente_Protegido.js](https://raw.githubusercontent.com/jvitoragr/CAF_pre_cadastro/refs/heads/main/Instala%C3%A7%C3%A3o/Script%20Tampermonkey/CAF_Assistente_Protegido.js).
 
 ---
 
