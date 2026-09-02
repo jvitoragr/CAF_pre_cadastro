@@ -15,7 +15,7 @@ Solução completa para coleta, validação prévia e automação no preenchimen
 
 * 🦊 **Mozilla Firefox:** [Download CAF_Assistente_Firefox.zip](https://raw.githubusercontent.com/jvitoragr/CAF_pre_cadastro/main/Instala%C3%A7%C3%A3o/Extens%C3%A3o%20para%20Navegadores/CAF_Assistente_Firefox.zip)
 * 🌐 **Google Chrome / Edge / Brave / Opera:** [Download CAF_Assistente_Chrome_Edge.zip](https://raw.githubusercontent.com/jvitoragr/CAF_pre_cadastro/main/Instala%C3%A7%C3%A3o/Extens%C3%A3o%20para%20Navegadores/CAF_Assistente_Chrome_Edge.zip)
-* 🐒 **Tampermonkey (Userscript):** Disponível na pasta [Instalação/Script Tampermonkey](Instala%C3%A7%C3%A3o/Script%20Tampermonkey/).
+* 🐒 **Tampermonkey (Userscript):** [Instalação Direta (CAF_Assistente_Protegido.js)](https://raw.githubusercontent.com/jvitoragr/CAF_pre_cadastro/refs/heads/main/Instala%C3%A7%C3%A3o/Script%20Tampermonkey/CAF_Assistente_Protegido.js) (ou disponível na pasta [Instalação/Script Tampermonkey](https://github.com/jvitoragr/CAF_pre_cadastro/blob/main/Instala%C3%A7%C3%A3o/Script%20Tampermonkey)).
 
 ---
 
@@ -46,12 +46,15 @@ flowchart LR
 
 ---
 
-## 🔒 Privacidade, Armazenamento Local e LGPD
+## 🔒 Privacidade, Ausência de Coleta e Segurança Local (LGPD)
 
-* **Armazenamento 100% Local:** Todos os dados digitados e arquivos PDF anexados são processados e armazenados **inicialmente de forma local** no próprio navegador (`localStorage` do dispositivo).
-* **Sem Servidores Externos:** A aplicação não realiza o envio automático de quaisquer informações ou documentos pessoais para bancos de dados ou servidores externos em nuvem.
-* **Segurança do Arquivo:** O arquivo JSON resultante contém dados pessoais e documentos em formato Base64. Após o download, ele deve ser mantido em local seguro pelo responsável pelo atendimento, evitando cópia ou compartilhamento com pessoas não autorizadas.
-* **LGPD (Lei nº 13.709/2018):** O tratamento das informações e documentos observa as finalidades legítimas de atendimento ao agricultor familiar e preparação para o CAF, respeitando a privacidade e os direitos dos titulares de dados.
+> [!IMPORTANT]
+> ### 🛡️ Compromisso Absoluto com a Privacidade: Operação 100% Local (Client-Side)
+> * **Zero Coleta Externa de Dados:** Nem a extensão (CAF Assistente) nem o formulário web coletam, rastreiam ou transmitem **nenhum dado pessoal, fiscal ou cadastral** para servidores externos, nuvem ou bancos de dados de terceiros.
+> * **Execução Exclusivamente Local:** Todas as operações (leitura do JSON, extração de notas fiscais, renderização de tabelas e preenchimento de formulários) ocorrem **unicamente na memória local do seu navegador** (`localStorage` / `sessionStorage` do seu computador).
+> * **Sem Telemetria ou Rastreadores:** O código não possui analytics, scripts espiões, anúncios ou conexões em segundo plano com servidores desconhecidos.
+> * **Segurança dos Arquivos Gerados:** O arquivo `.json` gerado no pré-cadastro pertence exclusivamente ao usuário e ao produtor rural. Ele fica salvo na pasta de downloads do próprio computador e só trafega entre as mãos do agricultor e do técnico/cadastrador credenciado.
+> * **Conformidade com a LGPD (Lei nº 13.709/2018):** O tratamento dos dados limita-se estritamente à finalidade legítima de preparação técnica para o cadastramento oficial do CAF, com total respeito aos titulares e aos dados da agricultura familiar.
 
 ---
 
@@ -74,7 +77,7 @@ Com o assistente instalado e os dados carregados (via arquivo JSON ou via janela
 * 📍 **Aba 2 (Endereço da UFPA):** Preenchimento instantâneo de CEP, UF, Município, Logradouro, Bairro e número.
 * 🏞️ **Aba 3 (Áreas e Imóveis Rurais):** Preenche condição de posse, tipo de área, tamanho decimal exato, anexa PDF comprobatório e conta com **Mapa de Satélite Híbrido ampliado (650px)** para localização precisa.
 * 🚜 **Aba 4 (Mão de Obra):** Insere trabalhadores permanentes e temporários (homem/dia).
-* 🌾 **Aba 5 (Renda e Produção):** Inserção em lote da grade de produtos, enquadramentos de renda e upload individual ou em lote de notas fiscais com detecção anti-duplicidade.
+* 🌾 **Aba 5 (Renda e Produção / Comprovantes em Lote):** Inserção em lote da grade de produtos, enquadramentos de renda e ferramenta de **upload automatizado de comprovantes em lote (PDFs e Imagens JPG/PNG)** com detecção inteligente de duplicidade.
 
 ---
 
@@ -82,21 +85,32 @@ Com o assistente instalado e os dados carregados (via arquivo JSON ou via janela
 > ### ⚡ Destaque: Uso SEM Arquivo JSON Prévio
 > 
 > O **CAF Assistente funciona perfeitamente mesmo se o agricultor não tiver realizado o pré-cadastro ou não possuir um arquivo JSON!**  
-> No momento do cadastramento oficial presencial, caso o cadastrador precise apenas processar as notas fiscais da produção, calcular a renda anual e anexar os comprovantes:
+> No momento do cadastramento oficial presencial, caso o cadastrador precise apenas processar notas fiscais ou anexar comprovantes em lote:
 > 
-> 1. No painel flutuante do assistente dentro do portal do CAF, clique no botão **"Editar" / "Coleta de Dados" (✏️)**.
-> 2. Vá direto na **Aba 5 (Renda e Produção)** e faça o upload em lote de todos os arquivos PDF de DANFEs ou cole as chaves de acesso / links das notas.
-> 3. O sistema processa tudo na hora: extrai os produtos, calcula os totais e gera a síntese anual da produção com os devidos enquadramentos do CAF.
-> 4. Clique em **"Salvar Edição"** no rodapé: todos os dados consolidados e os arquivos PDF são **injetados instantaneamente de volta no CAF Assistente**.
-> 5. Retorne à tela do CAF e utilize as automações do assistente para preencher a grade de renda e anexar os PDFs em poucos segundos!
+> 1. **Anexo em Lote Direto:** Na própria Aba 5 do formulário oficial, o módulo de lote fica imediatamente disponível para arrastar ou selecionar múltiplos arquivos (PDFs, JPGs ou PNGs) e enviá-los ao CAF com 1 clique!
+> 2. **Processamento Rápido de DANFEs:** No painel flutuante do assistente dentro do portal do CAF, clique no botão **"Editar" / "Coleta de Dados" (✏️)**.
+> 3. Vá direto na **Aba 5 (Renda e Produção)** e faça o upload em lote de todos os arquivos PDF de DANFEs ou cole as chaves de acesso / links das notas.
+> 4. O sistema processa tudo na hora: extrai os produtos, calcula os totais e gera a síntese anual da produção com os devidos enquadramentos do CAF.
+> 5. Clique em **"Salvar Edição"** no rodapé: todos os dados consolidados e os arquivos são **injetados instantaneamente de volta no CAF Assistente**.
+> 6. Retorne à tela do CAF e utilize as automações do assistente para preencher a grade de renda e anexar os documentos em poucos segundos!
+
+---
+
+## ☕ Gratuidade e Apoio Voluntário ao Projeto (PIX)
+
+> [!NOTE]
+> ### 🌱 100% Gratuito e Aberto
+> * **Acesso Irrestrito:** Todas as funcionalidades do portal de pré-cadastro e da extensão CAF Assistente são e sempre serão **100% gratuitas**.
+> * **Sem Recursos Bloqueados:** Nenhuma função, limite de arquivos ou ferramenta exige pagamento ou assinatura.
+> * **Doação Estritamente Espontânea:** O botão e modal de *PIX ("Pagar um café")* existente no assistente representa uma contribuição voluntária para apoiar as centenas de horas de pesquisa, manutenção e desenvolvimento independente dedicadas à agricultura familiar.
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-* **HTML5 / CSS3 Moderno** (Interface responsiva e acessível)
+* **HTML5 / CSS3 Moderno** (Interface responsiva e acessível com Glassmorphism)
 * **JavaScript (Vanilla)** (Processamento client-side, manipulação de DOM e arquitetura WebExtensions / Userscript)
-* **[Leaflet & Google Maps Hybrid Tiles](https://leafletjs.com/)** (Renderização de mapas de satélite de alta definição)
+* **[Leaflet & Google Maps Hybrid Tiles](https://leafletjs.com/)** (Renderização de mapas de satélite de alta definição com camadas híbridas)
 * **[PDF.js](https://mozilla.github.io/pdf.js/)** (Leitura e extração local de dados de DANFEs em PDF)
 * **[ViaCEP](https://viacep.com.br/)** (Consulta de endereços por CEP com banco offline integrado)
 
@@ -108,7 +122,7 @@ Com o assistente instalado e os dados carregados (via arquivo JSON ou via janela
   *Engenheiro Agrônomo, Mestre em Produção Vegetal, Doutor em Meteorologia Agrícola*  
   GitHub: [@jvitoragr](https://github.com/jvitoragr)
 * **Auxílio de Inteligência Artificial & Engenharia de Software:**  
-  *Desenvolvido com o suporte do modelo **Gemini 3.7 Flash** através da plataforma **Antigravity IDE**.*
+  *Desenvolvido com o suporte de modelos avançados de IA (**Gemini**) através da plataforma **Antigravity IDE**.*
 
 ---
 
