@@ -100,9 +100,9 @@ Com o assistente instalado e os dados carregados (via arquivo JSON ou via janela
 
 > [!NOTE]
 > ### 🌱 100% Gratuito e Aberto
-> * **Acesso Irrestrito:** Todas as funcionalidades do portal de pré-cadastro e da extensão CAF Assistente são e sempre serão **100% gratuitas**.
+> * **Acesso Irrestrito:** Todas as funcionalidades do portal de pré-cadastro e da extensão CAF Assistente são **100% gratuitas**.
 > * **Sem Recursos Bloqueados:** Nenhuma função, limite de arquivos ou ferramenta exige pagamento ou assinatura.
-> * **Doação Estritamente Espontânea:** O botão e modal de *PIX ("Pagar um café")* existente no assistente representa uma contribuição voluntária para apoiar as centenas de horas de pesquisa, manutenção e desenvolvimento independente dedicadas à agricultura familiar.
+> * **Doação Estritamente Espontânea:** O botão e modal de *PIX ("Pagar um café")* existente no assistente representa uma contribuição voluntária para apoiar o desenvolvimento independente do assistente.
 
 ---
 
