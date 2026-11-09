@@ -1,0 +1,1915 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extração Personalizada de NFe - CAF</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0b0f19;
+            --bg-card: #151c2c;
+            --bg-input: #1e293b;
+            --primary: #10b981;
+            --primary-hover: #059669;
+            --secondary: #3b82f6;
+            --secondary-hover: #2563eb;
+            --danger: #ef4444;
+            --danger-hover: #dc2626;
+            --warning: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --border-hover: #475569;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2 {
+            font-size: 19px;
+            color: var(--text-main);
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn {
+            background-color: var(--bg-input);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 9px 18px;
+            border-radius: 8px;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            border-color: var(--border-hover);
+            background-color: #243047;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #059669);
+            border: none;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-hover), #047857);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary), #2563eb);
+            border: none;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, var(--secondary-hover), #1d4ed8);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-warning {
+            background-color: rgba(245, 158, 11, 0.15);
+            border: 1px solid var(--warning);
+            color: #fbbf24;
+        }
+        .btn-warning:hover {
+            background-color: var(--warning);
+            color: black;
+        }
+
+        .btn-danger {
+            background-color: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--danger);
+            color: #f87171;
+        }
+
+        .btn-danger:hover {
+            background-color: var(--danger);
+            color: white;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .patterns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 20px;
+        }
+
+        .pattern-card {
+            background-color: #1a2336;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .pattern-card:hover {
+            border-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .pattern-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 5px;
+        }
+
+        .pattern-meta {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .badge {
+            background-color: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+        }
+        .badge-warning {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+        }
+
+        .pattern-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 12px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(11, 15, 25, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal-overlay.visible {
+            display: flex;
+        }
+
+        .modal-container {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 1050px;
+            max-height: 92vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5);
+            overflow: hidden;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 20px 24px;
+            overflow-y: auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0,0,0,0.15);
+        }
+
+        .close-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            color: var(--text-main);
+        }
+
+        /* Stepper Styles */
+        .stepper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1e293b;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .step.active {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .step.completed {
+            color: var(--secondary);
+        }
+
+        .step-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 1px solid var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+        }
+
+        .step.active .step-num {
+            border-color: var(--primary);
+            background-color: rgba(16, 185, 129, 0.15);
+        }
+
+        .step.completed .step-num {
+            border-color: var(--secondary);
+            background-color: rgba(59, 130, 246, 0.15);
+        }
+
+        /* Upload Zone */
+        .upload-zone {
+            border: 2px dashed var(--border);
+            background-color: #1a2336;
+            border-radius: 12px;
+            padding: 35px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--primary);
+            background-color: rgba(16, 185, 129, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 38px;
+            color: #ef4444;
+        }
+
+        .upload-text {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .upload-subtext {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Tables */
+        .table-container {
+            overflow: auto;
+            max-height: 380px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background-color: #0f172a;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11.5px;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 8px 10px;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        th {
+            background-color: #1e293b;
+            color: #60a5fa;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .interactive-row {
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+        }
+
+        .interactive-row:hover {
+            background-color: rgba(59, 130, 246, 0.12);
+        }
+
+        .interactive-row.selected {
+            background-color: rgba(16, 185, 129, 0.22) !important;
+            border-left: 4px solid var(--primary);
+        }
+
+        .interactive-row.suggested {
+            background-color: rgba(245, 158, 11, 0.10);
+        }
+
+        .cell-coord {
+            display: block;
+            font-size: 9px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        /* Column Mapper */
+        .column-mapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 12px;
+            max-height: 250px;
+            overflow-y: auto;
+            padding: 4px;
+        }
+
+        .column-map-card {
+            background-color: #1e293b;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .column-map-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .col-index {
+            font-size: 11px;
+            font-weight: 700;
+            color: #60a5fa;
+        }
+
+        .col-sample {
+            background-color: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 6px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            color: var(--text-main);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-family: monospace;
+        }
+
+        select, input[type="text"] {
+            background-color: var(--bg-main);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            width: 100%;
+            outline: none;
+        }
+
+        select:focus, input[type="text"]:focus {
+            border-color: var(--secondary);
+        }
+
+        .helper-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background-color: #1e293b;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 13px;
+            z-index: 2000;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast-success {
+            border-color: var(--primary);
+            color: #34d399;
+        }
+
+        .toast-error {
+            border-color: var(--danger);
+            color: #f87171;
+        }
+
+        .toast-info {
+            border-color: var(--secondary);
+            color: #60a5fa;
+        }
+
+        /* Diagnostic log box */
+        .log-box {
+            background: #090d16;
+            border: 1px solid #1e293b;
+            border-radius: 6px;
+            padding: 12px;
+            font-family: monospace;
+            font-size: 11px;
+            color: #94a3b8;
+            max-height: 160px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>🧾 Extração Personalizada de NFe</h1>
+                <p style="color: var(--text-muted); font-size: 13.5px; margin-top: 5px;">
+                    Configure e teste padrões avançados para qualquer modelo de Nota Fiscal (DANFE)
+                </p>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="btn" id="btn-import"><i class="fas fa-file-import"></i> Importar JSON</button>
+                <button class="btn" id="btn-export"><i class="fas fa-file-export"></i> Exportar JSON</button>
+                <button class="btn btn-primary" id="btn-add-pattern"><i class="fas fa-plus"></i> Novo Padrão</button>
+            </div>
+            <input type="file" id="import-file-input" accept=".json" style="display: none;">
+        </header>
+
+        <!-- SEÇÃO 1: Padrões Ativos -->
+        <main class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2><i class="fas fa-layer-group" style="color: var(--secondary);"></i> Padrões Cadastrados</h2>
+                <div id="patterns-count" style="font-size: 12.5px; color: var(--text-muted);">Nenhum padrão cadastrado</div>
+            </div>
+
+            <div class="patterns-grid" id="patterns-list">
+                <!-- Padrões cadastrados aparecerão aqui -->
+            </div>
+        </main>
+
+        <!-- SEÇÃO 2: Simulador e Testador Real de Extração -->
+        <section class="card" style="border-top: 3px solid var(--primary);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <div>
+                    <h2><i class="fas fa-vial" style="color: var(--primary);"></i> Simulador de Extração em PDF Real</h2>
+                    <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 3px;">
+                        Arraste qualquer PDF de nota fiscal (ex: as notas da pasta Auxiliar) para testar o casamento de padrões e ver os produtos extraídos instantaneamente.
+                    </p>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <select id="sim-pattern-select" style="min-width: 220px;">
+                        <option value="auto">⚡ Auto-detectar (Todos os Padrões)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="upload-zone" id="sim-dropzone" style="padding: 25px 20px;">
+                <i class="fas fa-file-pdf upload-icon"></i>
+                <span class="upload-text">Arraste ou clique para testar um PDF de Nota Fiscal</span>
+                <span class="upload-subtext">O extrator identificará o padrão compatível e exibirá a tabela final de produtos</span>
+                <input type="file" id="sim-file-input" accept=".pdf" style="display: none;">
+            </div>
+
+            <div id="sim-loading" style="display: none; text-align: center; color: var(--secondary); padding: 20px;">
+                <i class="fas fa-spinner fa-spin fa-2x"></i>
+                <p style="margin-top: 8px; font-size: 13px;">Processando PDF e executando casamento de colunas...</p>
+            </div>
+
+            <!-- Resultados do Teste -->
+            <div id="sim-results" style="display: none; margin-top: 20px; display: flex; flex-direction: column; gap: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; background: #1e293b; padding: 10px 16px; border-radius: 8px;">
+                    <div>
+                        <span style="font-size: 12px; color: #94a3b8;">Arquivo: </span>
+                        <strong id="sim-file-name" style="color: white; font-size: 13px;">-</strong>
+                        <span id="sim-match-badge" class="badge badge-success" style="margin-left: 10px;">Padrão Casado</span>
+                    </div>
+                    <div style="font-size: 13px;">
+                        Total Produtos: <strong id="sim-prod-count" style="color: var(--secondary);">0</strong> | 
+                        Soma Líquida: <strong id="sim-total-sum" style="color: var(--primary);">R$ 0,00</strong>
+                    </div>
+                </div>
+
+                <div class="table-container" style="max-height: 280px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Descrição / Produto</th>
+                                <th>UN</th>
+                                <th>Quantidade</th>
+                                <th>Vlr Unitário</th>
+                                <th>Vlr Total</th>
+                                <th>Desconto</th>
+                                <th>Vlr c/ Desconto</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sim-tbody">
+                            <!-- Itens extraídos -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Log Diagnóstico -->
+                <div>
+                    <span style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Diagnóstico da Extração:</span>
+                    <div class="log-box" id="sim-log-box" style="margin-top: 5px;"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal Workflow de Adicionar / Editar Padrão -->
+    <div class="modal-overlay" id="modal-pattern">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 id="modal-title" style="margin-bottom: 0;"><i class="fas fa-cog" style="color: var(--primary);"></i> Configurar Novo Padrão</h2>
+                <button class="close-btn" id="modal-close">&times;</button>
+            </div>
+            
+            <div class="stepper">
+                <div class="step active" id="step-1">
+                    <span class="step-num">1</span> Carregar PDF
+                </div>
+                <div class="step" id="step-2">
+                    <span class="step-num">2</span> Selecionar Linhas de Produto
+                </div>
+                <div class="step" id="step-3">
+                    <span class="step-num">3</span> Mapear Colunas & Faixas
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <!-- ETAPA 1: Carregar PDF -->
+                <div id="content-step-1" class="step-content">
+                    <div class="upload-zone" id="pdf-dropzone">
+                        <i class="fas fa-file-pdf upload-icon"></i>
+                        <span class="upload-text">Arraste ou clique para carregar o PDF de Exemplo</span>
+                        <span class="upload-subtext">Ele será reconstruído por coordenadas inteligentes para você mapear as colunas</span>
+                        <input type="file" id="pdf-file-input" accept=".pdf" style="display: none;">
+                    </div>
+                    <div id="loading-pdf" style="display: none; text-align: center; color: var(--secondary); padding: 30px;">
+                        <i class="fas fa-spinner fa-spin fa-2x"></i>
+                        <p style="margin-top: 10px; font-size: 13px;">Processando PDF e reconstruindo tabela por coordenadas...</p>
+                    </div>
+                </div>
+
+                <!-- ETAPA 2: Selecionar Linhas -->
+                <div id="content-step-2" class="step-content" style="display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+                        <p class="helper-text" style="margin-bottom: 0;">
+                            💡 <strong>Instrução:</strong> Clique em cima das <strong>linhas que contêm produtos</strong> (ficarão verdes).
+                        </p>
+                        <div style="display: flex; gap: 8px;">
+                            <button type="button" class="btn btn-warning" id="btn-auto-select-rows" style="font-size: 11.5px; padding: 6px 12px;">
+                                <i class="fas fa-magic"></i> Selecionar Sugestões
+                            </button>
+                            <button type="button" class="btn" id="btn-clear-select-rows" style="font-size: 11.5px; padding: 6px 12px;">
+                                <i class="fas fa-eraser"></i> Limpar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-container" id="reconstructed-table-wrapper">
+                        <!-- Tabela será gerada dinamicamente -->
+                    </div>
+                </div>
+
+                <!-- ETAPA 3: Mapear Colunas -->
+                <div id="content-step-3" class="step-content" style="display: none;">
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 15px;">
+                        <div style="flex: 2; min-width: 250px;">
+                            <label for="pattern-name" style="font-size: 12px; font-weight: 600;">Nome do Padrão <span style="color:var(--danger)">*</span></label>
+                            <input type="text" id="pattern-name" placeholder="Ex: Modelo Damare - Laticínios" style="margin-top: 4px;">
+                        </div>
+                        <div style="flex: 1; min-width: 220px; display: flex; align-items: center; gap: 8px; padding-bottom: 8px;">
+                            <label style="font-size: 12px; color: #94a3b8; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="pattern-multiline" checked style="width: 16px; height: 16px; accent-color: var(--primary);">
+                                Permitir descrição em várias linhas
+                            </label>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <h3 style="font-size:14px; color: var(--secondary); margin-bottom: 0;">Associação de Colunas (Faixas X Inteligentes)</h3>
+                        <span style="font-size: 11px; color: #94a3b8;">Obrigatórios: Descrição, UN, Qtd, Vlr Unit</span>
+                    </div>
+
+                    <div class="column-mapper" id="columns-mapping-container">
+                        <!-- Cards de mapeamento de colunas -->
+                    </div>
+
+                    <h3 style="font-size:14px; color: var(--primary); margin: 18px 0 8px;">
+                        <i class="fas fa-eye"></i> Pré-visualização da Extração com o Padrão Atual
+                    </h3>
+                    <div class="table-container" id="preview-extraction-table-wrapper" style="max-height: 140px;">
+                        <!-- Preview da tabela final de produtos -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn" id="btn-prev" disabled>Voltar</button>
+                <div id="selection-status" style="font-size: 12.5px; color: var(--text-muted);"></div>
+                <button class="btn btn-secondary" id="btn-next" disabled>Avançar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span id="toast-text"></span>
+    </div>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        // Expanded units regex (includes LT, LTS, LITRO, SC, SACA, KG, UN, etc.)
+        const UN_REGEX = /^(Kg|UN|UND|PC|PÇ|PCA|KGM|QUILO|L|LT|LTS|LITRO|LITROS|MT|M|METRO|UNID|SC|SCA|SACA|SACAS|CX|CAIXA|DZ|DUZIA|M2|M3|PR|PAR|CJ|FD|FARDO|BD|GL|LA|PT|PCT|RL|TB|MACO|MAÇO|MC|TON|T|G|GR|GRAMA|ML|MIL|CENTO)$/i;
+
+        // Roles defining
+        const ROLES = {
+            ignore: 'Ignorar',
+            nome: 'Descrição / Nome do Produto',
+            un: 'Unidade (UN)',
+            qtd: 'Quantidade',
+            valUnit: 'Valor Unitário',
+            valTotal: 'Valor Total',
+            desconto: 'Desconto (Opcional)',
+            valTotalComDesconto: 'Vlr c/ Desc (Opcional)'
+        };
+
+        // State variables
+        let currentStep = 1;
+        let selectedPdfData = null;
+        let pdfRows = []; // { page, y, celulas: [{x, y, texto, width}] }
+        let selectedRowIndices = new Set();
+        let columnMappings = {}; // index -> role
+        let columnIntervals = []; // [{xMin, xMax, tplX}]
+        let customPatterns = [];
+        let editingPatternIndex = -1;
+
+        // DOM elements
+        const modal = document.getElementById('modal-pattern');
+        const modalTitle = document.getElementById('modal-title');
+        const modalClose = document.getElementById('modal-close');
+        const btnAddPattern = document.getElementById('btn-add-pattern');
+        const btnImport = document.getElementById('btn-import');
+        const btnExport = document.getElementById('btn-export');
+        const importFileInput = document.getElementById('import-file-input');
+        const patternsList = document.getElementById('patterns-list');
+        const patternsCount = document.getElementById('patterns-count');
+        const btnNext = document.getElementById('btn-next');
+        const btnPrev = document.getElementById('btn-prev');
+        const selectionStatus = document.getElementById('selection-status');
+        const pdfDropzone = document.getElementById('pdf-dropzone');
+        const pdfFileInput = document.getElementById('pdf-file-input');
+        const loadingPdf = document.getElementById('loading-pdf');
+        const patternNameInput = document.getElementById('pattern-name');
+        const patternMultilineCheck = document.getElementById('pattern-multiline');
+
+        // Simulator Elements
+        const simDropzone = document.getElementById('sim-dropzone');
+        const simFileInput = document.getElementById('sim-file-input');
+        const simLoading = document.getElementById('sim-loading');
+        const simResults = document.getElementById('sim-results');
+        const simFileName = document.getElementById('sim-file-name');
+        const simMatchBadge = document.getElementById('sim-match-badge');
+        const simProdCount = document.getElementById('sim-prod-count');
+        const simTotalSum = document.getElementById('sim-total-sum');
+        const simTbody = document.getElementById('sim-tbody');
+        const simLogBox = document.getElementById('sim-log-box');
+        const simPatternSelect = document.getElementById('sim-pattern-select');
+
+        // ==========================================
+        // 1. GESTÃO DE PADRÕES (LOAD / SAVE / LIST)
+        // ==========================================
+        function loadPatterns() {
+            try {
+                const stored = localStorage.getItem('caf_custom_nfe_patterns');
+                if (stored) {
+                    customPatterns = JSON.parse(stored);
+                } else {
+                    customPatterns = [];
+                }
+            } catch (e) {
+                console.error("Erro ao carregar padrões:", e);
+                customPatterns = [];
+            }
+
+            // Ensure backward compatibility of stored patterns
+            customPatterns.forEach(p => {
+                if (!p.intervals && p.xPositions) {
+                    p.intervals = buildIntervalsFromXPositions(p.xPositions);
+                }
+                if (p.allowMultiline === undefined) {
+                    p.allowMultiline = true;
+                }
+            });
+
+            renderPatternsList();
+            updateSimPatternSelect();
+        }
+
+        function savePatterns() {
+            try {
+                localStorage.setItem('caf_custom_nfe_patterns', JSON.stringify(customPatterns));
+                renderPatternsList();
+                updateSimPatternSelect();
+            } catch (e) {
+                showToast("Erro ao salvar padrões: " + e.message, "error");
+            }
+        }
+
+        function updateSimPatternSelect() {
+            simPatternSelect.innerHTML = `<option value="auto">⚡ Auto-detectar (Todos os Padrões)</option>`;
+            customPatterns.forEach((p, idx) => {
+                simPatternSelect.innerHTML += `<option value="${idx}">${escapeHtml(p.name)}</option>`;
+            });
+        }
+
+        function renderPatternsList() {
+            patternsList.innerHTML = '';
+            if (customPatterns.length === 0) {
+                patternsCount.textContent = "Nenhum padrão cadastrado";
+                patternsList.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <i class="fas fa-clipboard-list" style="font-size: 36px; margin-bottom: 10px; color: #475569;"></i>
+                        <p>Nenhum padrão personalizado cadastrado ainda.</p>
+                        <p style="margin-top: 5px;">Clique em <strong>Novo Padrão</strong> para cadastrar notas com layouts diferentes.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            patternsCount.textContent = `${customPatterns.length} padrão(ões) cadastrado(s)`;
+            customPatterns.forEach((p, idx) => {
+                const colCount = p.xPositions ? p.xPositions.length : (p.intervals ? p.intervals.length : 0);
+                const card = document.createElement('div');
+                card.className = 'pattern-card';
+
+                const activeMappings = [];
+                if (p.mappings) {
+                    Object.entries(p.mappings).forEach(([colIdx, role]) => {
+                        if (role !== 'ignore' && ROLES[role]) {
+                            activeMappings.push(`${ROLES[role]}`);
+                        }
+                    });
+                }
+
+                card.innerHTML = `
+                    <div class="pattern-info">
+                        <h3>${escapeHtml(p.name)}</h3>
+                        <div class="pattern-meta">
+                            <span class="badge">${colCount} colunas</span>
+                            <span class="badge badge-success">${activeMappings.length} mapeadas</span>
+                            ${p.allowMultiline ? '<span class="badge badge-warning">Multi-linha</span>' : ''}
+                        </div>
+                        <p style="font-size: 11px; color: var(--text-muted); margin-top: 8px; line-height:1.4;">
+                            <strong>Campos:</strong> ${activeMappings.join(', ') || 'Nenhum'}
+                        </p>
+                    </div>
+                    <div class="pattern-actions">
+                        <button class="btn btn-sm" onclick="editExistingPattern(${idx})" style="font-size:11.5px; padding:5px 10px;">
+                            <i class="fas fa-pencil-alt"></i> Editar
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="deletePattern(${idx})" style="font-size:11.5px; padding:5px 10px;">
+                            <i class="fas fa-trash"></i> Excluir
+                        </button>
+                    </div>
+                `;
+                patternsList.appendChild(card);
+            });
+        }
+
+        window.deletePattern = function(idx) {
+            if (confirm(`Deseja realmente excluir o padrão "${customPatterns[idx].name}"?`)) {
+                customPatterns.splice(idx, 1);
+                savePatterns();
+                showToast("Padrão excluído com sucesso!", "success");
+            }
+        };
+
+        window.editExistingPattern = function(idx) {
+            const p = customPatterns[idx];
+            if (!p) return;
+            const newName = prompt("Editar nome do padrão:", p.name);
+            if (newName && newName.trim()) {
+                p.name = newName.trim();
+                p.allowMultiline = confirm("Deseja ativar a junção automática de descrições em múltiplas linhas para este padrão?");
+                savePatterns();
+                showToast("Padrão atualizado com sucesso!", "success");
+            }
+        };
+
+        // ==========================================
+        // 2. MODAL NOVO PADRÃO: STEPPER & UPLOAD
+        // ==========================================
+        btnAddPattern.addEventListener('click', () => {
+            resetWorkflow();
+            modalTitle.innerHTML = `<i class="fas fa-cog" style="color: var(--primary);"></i> Configurar Novo Padrão`;
+            modal.classList.add('visible');
+        });
+
+        modalClose.addEventListener('click', () => {
+            modal.classList.remove('visible');
+        });
+
+        pdfDropzone.addEventListener('click', () => pdfFileInput.click());
+        pdfFileInput.addEventListener('change', (e) => handleFileSelect(e.target.files[0]));
+
+        pdfDropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            pdfDropzone.style.borderColor = 'var(--primary)';
+        });
+
+        pdfDropzone.addEventListener('dragleave', () => {
+            pdfDropzone.style.borderColor = 'var(--border)';
+        });
+
+        pdfDropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            pdfDropzone.style.borderColor = 'var(--border)';
+            if (e.dataTransfer.files.length > 0) {
+                handleFileSelect(e.dataTransfer.files[0]);
+            }
+        });
+
+        async function handleFileSelect(file) {
+            if (!file || file.type !== 'application/pdf') {
+                showToast("Por favor, selecione um arquivo PDF válido.", "error");
+                return;
+            }
+
+            loadingPdf.style.display = 'block';
+            pdfDropzone.style.display = 'none';
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                
+                let todosItems = [];
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const content = await page.getTextContent();
+                    todosItems = todosItems.concat(content.items.map(item => ({
+                        str: item.str,
+                        transform: item.transform,
+                        width: item.width || (item.str.length * 5),
+                        pageNumber: i
+                    })));
+                }
+
+                // Agrupamento inteligente com Fuzzy Y-clustering (tolerância vertical de 3.5px)
+                pdfRows = clusterItemsByPageAndY(todosItems);
+
+                if (pdfRows.length === 0) {
+                    throw new Error("Nenhum texto pôde ser extraído do PDF. Verifique se ele não é uma imagem escaneada.");
+                }
+
+                patternNameInput.value = file.name.replace(/\.pdf$/i, '').trim();
+                loadingPdf.style.display = 'none';
+                renderStep(2);
+
+            } catch (e) {
+                loadingPdf.style.display = 'none';
+                pdfDropzone.style.display = 'flex';
+                showToast("Erro ao processar PDF: " + e.message, "error");
+            }
+        }
+
+        /**
+         * Clusterização vertical inteligente (Fuzzy Y-Clustering):
+         * Agrupa textos na mesma página cuja coordenada Y difira em até ±3.5px.
+         * Mescla fragmentos contíguos de texto dentro da mesma célula.
+         */
+        function clusterItemsByPageAndY(items) {
+            // Ordenar por página, depois por Y decrescente (topo para base) e X crescente
+            const sorted = [...items].sort((a, b) => {
+                if (a.pageNumber !== b.pageNumber) return a.pageNumber - b.pageNumber;
+                const yDiff = b.transform[5] - a.transform[5];
+                if (Math.abs(yDiff) > 3.5) return yDiff;
+                return a.transform[4] - b.transform[4];
+            });
+
+            const clusters = [];
+            const Y_TOLERANCE = 3.5;
+
+            sorted.forEach(item => {
+                const text = item.str.trim();
+                if (!text) return;
+                const page = item.pageNumber;
+                const itemY = item.transform[5];
+                const itemX = item.transform[4];
+                const itemW = item.width || (text.length * 5);
+
+                // Encontrar cluster na mesma página com baseline próximo
+                let matched = clusters.find(c => c.page === page && Math.abs(c.yCenter - itemY) <= Y_TOLERANCE);
+                if (!matched) {
+                    matched = {
+                        page: page,
+                        yCenter: itemY,
+                        yValues: [itemY],
+                        items: []
+                    };
+                    clusters.push(matched);
+                } else {
+                    matched.yValues.push(itemY);
+                    matched.yCenter = matched.yValues.reduce((a, b) => a + b, 0) / matched.yValues.length;
+                }
+
+                matched.items.push({
+                    x: Math.round(itemX),
+                    y: Math.round(itemY),
+                    width: Math.round(itemW),
+                    texto: text
+                });
+            });
+
+            // Converter clusters em linhas de tabela, ordenando células por X
+            const rows = [];
+            clusters.sort((a, b) => {
+                if (a.page !== b.page) return a.page - b.page;
+                return b.yCenter - a.yCenter;
+            }).forEach(c => {
+                // Ordenar células por X
+                const rawCells = c.items.sort((a, b) => a.x - b.x);
+                
+                // Mesclar apenas fragmentos que foram cortados ao meio (gap <= 2.5px)
+                const mergedCells = [];
+                rawCells.forEach(cell => {
+                    if (mergedCells.length > 0) {
+                        const prev = mergedCells[mergedCells.length - 1];
+                        const gap = cell.x - (prev.x + prev.width);
+                        if (gap >= -2 && gap <= 2.5) {
+                            prev.texto += " " + cell.texto;
+                            prev.width = (cell.x + cell.width) - prev.x;
+                            return;
+                        }
+                    }
+                    mergedCells.push({ ...cell });
+                });
+
+                // Detectar se esta linha tem potencial de ser um produto (possui UN e números)
+                const hasUn = mergedCells.some(cell => UN_REGEX.test(cell.texto.trim()));
+                const numCount = mergedCells.filter(cell => /^[\d.,]+$/.test(cell.texto.replace(/R\$\s*/gi, '').trim())).length;
+                const isProductCandidate = hasUn && numCount >= 2;
+
+                rows.push({
+                    page: c.page,
+                    y: Math.round(c.yCenter),
+                    celulas: mergedCells,
+                    isProductCandidate: isProductCandidate
+                });
+            });
+
+            return rows;
+        }
+
+        // Stepper Navigation
+        function renderStep(step) {
+            currentStep = step;
+            
+            document.querySelectorAll('.step').forEach((el, idx) => {
+                const sNum = idx + 1;
+                el.className = 'step';
+                if (sNum === currentStep) el.classList.add('active');
+                else if (sNum < currentStep) el.classList.add('completed');
+            });
+
+            document.querySelectorAll('.step-content').forEach((el, idx) => {
+                el.style.display = (idx + 1 === currentStep) ? 'block' : 'none';
+            });
+
+            btnPrev.disabled = (currentStep === 1);
+            btnNext.disabled = true;
+
+            if (currentStep === 2) {
+                renderReconstructedTable();
+                updateStep2NextButton();
+            } else if (currentStep === 3) {
+                renderColumnMapping();
+                btnNext.textContent = "Salvar Padrão";
+                btnNext.disabled = false;
+            } else {
+                btnNext.textContent = "Avançar";
+            }
+        }
+
+        btnPrev.addEventListener('click', () => {
+            if (currentStep > 1) {
+                renderStep(currentStep - 1);
+            }
+        });
+
+        btnNext.addEventListener('click', () => {
+            if (currentStep === 2) {
+                renderStep(3);
+            } else if (currentStep === 3) {
+                saveNewPattern();
+            }
+        });
+
+        // ==========================================
+        // 3. STEP 2: TABELA RECONSTRUÍDA & SELEÇÃO
+        // ==========================================
+        function renderReconstructedTable() {
+            const wrapper = document.getElementById('reconstructed-table-wrapper');
+            wrapper.innerHTML = '';
+
+            if (pdfRows.length === 0) return;
+
+            const maxCols = Math.max(...pdfRows.map(r => r.celulas.length));
+
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            const trHead = document.createElement('tr');
+            
+            trHead.innerHTML = `<th>Linha</th><th>Pág / Y</th><th>Sugestão</th>`;
+            for (let i = 0; i < maxCols; i++) {
+                trHead.innerHTML += `<th>Col ${i+1}</th>`;
+            }
+            thead.appendChild(trHead);
+            table.appendChild(thead);
+
+            const tbody = document.createElement('tbody');
+            pdfRows.forEach((row, rIdx) => {
+                const tr = document.createElement('tr');
+                tr.className = 'interactive-row';
+                if (selectedRowIndices.has(rIdx)) {
+                    tr.classList.add('selected');
+                } else if (row.isProductCandidate) {
+                    tr.classList.add('suggested');
+                }
+
+                tr.addEventListener('click', () => {
+                    if (selectedRowIndices.has(rIdx)) {
+                        selectedRowIndices.delete(rIdx);
+                        tr.classList.remove('selected');
+                    } else {
+                        selectedRowIndices.add(rIdx);
+                        tr.classList.add('selected');
+                    }
+                    updateStep2NextButton();
+                });
+
+                const badgeSugg = row.isProductCandidate ? `<span class="badge badge-warning">⚡ Produto</span>` : `<span style="color:#64748b;">-</span>`;
+
+                tr.innerHTML = `
+                    <td>${rIdx + 1}</td>
+                    <td style="color:#94a3b8; font-size:10px;">P.${row.page} y=${row.y}</td>
+                    <td>${badgeSugg}</td>
+                `;
+
+                for (let i = 0; i < maxCols; i++) {
+                    const celula = row.celulas[i];
+                    if (celula) {
+                        tr.innerHTML += `<td>
+                            <div>${escapeHtml(celula.texto)}</div>
+                            <span class="cell-coord">x=${celula.x}</span>
+                        </td>`;
+                    } else {
+                        tr.innerHTML += `<td style="color:#475569;">-</td>`;
+                    }
+                }
+                tbody.appendChild(tr);
+            });
+
+            table.appendChild(tbody);
+            wrapper.appendChild(table);
+
+            // Se ainda não houver seleção, auto-seleciona linhas sugeridas
+            if (selectedRowIndices.size === 0) {
+                autoSelectSuggestedRows();
+            }
+        }
+
+        function autoSelectSuggestedRows() {
+            pdfRows.forEach((r, idx) => {
+                if (r.isProductCandidate) {
+                    selectedRowIndices.add(idx);
+                }
+            });
+            document.querySelectorAll('#reconstructed-table-wrapper tr.interactive-row').forEach((tr, idx) => {
+                if (selectedRowIndices.has(idx)) {
+                    tr.classList.add('selected');
+                }
+            });
+            updateStep2NextButton();
+        }
+
+        document.getElementById('btn-auto-select-rows').addEventListener('click', () => {
+            autoSelectSuggestedRows();
+            showToast(`${selectedRowIndices.size} linha(s) de produto sugeridas selecionadas!`, "info");
+        });
+
+        document.getElementById('btn-clear-select-rows').addEventListener('click', () => {
+            selectedRowIndices.clear();
+            document.querySelectorAll('#reconstructed-table-wrapper tr.interactive-row').forEach(tr => {
+                tr.classList.remove('selected');
+            });
+            updateStep2NextButton();
+        });
+
+        function updateStep2NextButton() {
+            const count = selectedRowIndices.size;
+            selectionStatus.textContent = count > 0 ? `${count} linha(s) de produto selecionada(s)` : 'Selecione pelo menos 1 linha';
+            btnNext.disabled = (count === 0);
+        }
+
+        // ==========================================
+        // 4. STEP 3: MAPEAMENTO DE COLUNAS & INTERVALOS
+        // ==========================================
+        function renderColumnMapping() {
+            const container = document.getElementById('columns-mapping-container');
+            container.innerHTML = '';
+
+            const selectedIndices = Array.from(selectedRowIndices).sort((a, b) => a - b);
+            const templateRowIdx = selectedIndices[0];
+            const templateRow = pdfRows[templateRowIdx];
+
+            // Calcular faixas horizontais inteligentes (Bounding Boxes)
+            columnIntervals = calculateColumnIntervals(templateRow.celulas);
+
+            // Inicializar mapeamentos com heurística inteligente
+            columnMappings = guessColumnRoles(templateRow.celulas);
+
+            templateRow.celulas.forEach((cel, cIdx) => {
+                const interval = columnIntervals[cIdx];
+                const currentRole = columnMappings[cIdx] || 'ignore';
+
+                const card = document.createElement('div');
+                card.className = 'column-map-card';
+
+                let optionsHtml = '';
+                Object.entries(ROLES).forEach(([roleKey, roleLabel]) => {
+                    optionsHtml += `<option value="${roleKey}" ${currentRole === roleKey ? 'selected' : ''}>${roleLabel}</option>`;
+                });
+
+                card.innerHTML = `
+                    <div class="column-map-header">
+                        <span class="col-index">Col ${cIdx + 1}</span>
+                        <span class="badge" style="font-size:9.5px; background:rgba(0,0,0,0.4); color:#94a3b8;">X: ${interval.xMin} a ${interval.xMax}</span>
+                    </div>
+                    <div class="col-sample" title="${escapeHtml(cel.texto)}">
+                        ${escapeHtml(cel.texto)}
+                    </div>
+                    <select onchange="updateColumnMapping(${cIdx}, this.value)">
+                        ${optionsHtml}
+                    </select>
+                `;
+                container.appendChild(card);
+            });
+
+            renderPreviewExtraction();
+        }
+
+        /**
+         * Calcula intervalos de cada coluna:
+         * xMin é o ponto médio com a coluna anterior, e xMax o ponto médio com a próxima.
+         */
+        function calculateColumnIntervals(cells) {
+            const intervals = [];
+            for (let i = 0; i < cells.length; i++) {
+                const c = cells[i];
+                const cW = c.width || (c.texto.length * 6);
+                
+                let leftBound = (i === 0) ? Math.max(0, c.x - 25) : Math.round((cells[i - 1].x + (cells[i - 1].width || 10) + c.x) / 2);
+                let rightBound = (i === cells.length - 1) ? Math.round(c.x + cW + 60) : Math.round((c.x + cW + cells[i + 1].x) / 2);
+
+                intervals.push({
+                    colIndex: i,
+                    tplX: c.x,
+                    xMin: leftBound,
+                    xMax: rightBound
+                });
+            }
+            return intervals;
+        }
+
+        function guessColumnRoles(celulas) {
+            const mappings = {};
+            celulas.forEach((c, idx) => mappings[idx] = 'ignore');
+
+            // 1. Encontrar coluna de Unidade
+            let unIdx = -1;
+            for (let i = 0; i < celulas.length; i++) {
+                if (UN_REGEX.test(celulas[i].texto.trim())) {
+                    unIdx = i;
+                    mappings[i] = 'un';
+                    break;
+                }
+            }
+
+            if (unIdx === -1) {
+                // Se não achou unidade padrão, tenta encontrar a primeira coluna com 2 letras
+                for (let i = 0; i < celulas.length; i++) {
+                    if (/^[A-Z]{2,4}$/i.test(celulas[i].texto.trim())) {
+                        unIdx = i;
+                        mappings[i] = 'un';
+                        break;
+                    }
+                }
+            }
+
+            // 2. Colunas numéricas após a UN
+            if (unIdx !== -1) {
+                const numericCols = [];
+                for (let i = unIdx + 1; i < celulas.length; i++) {
+                    const valStr = celulas[i].texto.replace(/R\$\s*/gi, '').trim();
+                    if (/^[\d.,]+$/.test(valStr)) {
+                        numericCols.push({ idx: i, valStr: valStr });
+                    }
+                }
+
+                if (numericCols.length >= 2) {
+                    mappings[numericCols[0].idx] = 'qtd';
+                    mappings[numericCols[1].idx] = 'valUnit';
+
+                    const qtdVal = parseFloat(numericCols[0].valStr.replace(/\./g, '').replace(',', '.')) || 0;
+                    const vuVal = parseFloat(numericCols[1].valStr.replace(/\./g, '').replace(',', '.')) || 0;
+                    const expectedTotal = qtdVal * vuVal;
+
+                    if (numericCols.length === 3) {
+                        mappings[numericCols[2].idx] = 'valTotal';
+                    } else if (numericCols.length > 3) {
+                        // Achar a coluna que melhor bate com expectedTotal
+                        let bestIdx = numericCols[2].idx;
+                        let minDiff = Infinity;
+                        for (let j = 2; j < numericCols.length; j++) {
+                            const candVal = parseFloat(numericCols[j].valStr.replace(/\./g, '').replace(',', '.')) || 0;
+                            const diff = Math.abs(candVal - expectedTotal);
+                            if (diff < minDiff) {
+                                minDiff = diff;
+                                bestIdx = numericCols[j].idx;
+                            }
+                        }
+                        mappings[bestIdx] = 'valTotal';
+
+                        // Se houver coluna entre valUnit e valTotal, provavelmente é desconto
+                        for (let j = 2; j < numericCols.length; j++) {
+                            const cIdx = numericCols[j].idx;
+                            if (cIdx < bestIdx) {
+                                mappings[cIdx] = 'desconto';
+                            }
+                        }
+                    }
+                }
+
+                // 3. Descrição / Nome: pegar texto antes da UN que não seja puramente código numérico
+                let nameCandidates = [];
+                for (let i = 0; i < unIdx; i++) {
+                    const txt = celulas[i].texto.trim();
+                    if (!/^\d+$/.test(txt) && txt.length > 1) {
+                        nameCandidates.push(i);
+                    }
+                }
+
+                if (nameCandidates.length > 0) {
+                    // Se houver mais de um candidato e o primeiro for código alfanumérico curto (ex: MP0160001), seleciona a descrição real
+                    if (nameCandidates.length > 1 && /^[A-Z0-9_-]{4,15}$/i.test(celulas[nameCandidates[0]].texto.trim())) {
+                        mappings[nameCandidates[1]] = 'nome';
+                    } else {
+                        // Escolhe a coluna com o texto mais longo como Nome
+                        let longestIdx = nameCandidates[0];
+                        let maxLen = 0;
+                        nameCandidates.forEach(ci => {
+                            if (celulas[ci].texto.length > maxLen) {
+                                maxLen = celulas[ci].texto.length;
+                                longestIdx = ci;
+                            }
+                        });
+                        mappings[longestIdx] = 'nome';
+                    }
+                }
+            }
+
+            return mappings;
+        }
+
+        window.updateColumnMapping = function(colIdx, role) {
+            columnMappings[colIdx] = role;
+            renderPreviewExtraction();
+        };
+
+        function renderPreviewExtraction() {
+            const wrapper = document.getElementById('preview-extraction-table-wrapper');
+            wrapper.innerHTML = '';
+
+            const selectedIndices = Array.from(selectedRowIndices).sort((a, b) => a - b);
+            const templateRow = pdfRows[selectedIndices[0]];
+
+            const patternObj = {
+                intervals: columnIntervals,
+                mappings: columnMappings,
+                allowMultiline: patternMultilineCheck.checked
+            };
+
+            const produtos = extractProductsFromRows(selectedIndices.map(i => pdfRows[i]), patternObj);
+
+            if (produtos.length === 0) {
+                wrapper.innerHTML = '<div class="empty-state">Mapeie pelo menos Descrição, UN, Qtd e Vlr Unitário para visualizar o preview.</div>';
+                return;
+            }
+
+            const table = document.createElement('table');
+            table.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>UN</th>
+                        <th>Qtd</th>
+                        <th>Vlr Unit</th>
+                        <th>Vlr Total</th>
+                        <th>Desconto</th>
+                        <th>Vlr Líquido</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${produtos.map(p => `
+                        <tr>
+                            <td style="font-weight: 600; color:white;">${escapeHtml(p.nome)}</td>
+                            <td>${escapeHtml(p.un)}</td>
+                            <td>${p.qtd}</td>
+                            <td>R$ ${p.valUnit.toFixed(2)}</td>
+                            <td>R$ ${p.valTotal.toFixed(2)}</td>
+                            <td>R$ ${p.desconto.toFixed(2)}</td>
+                            <td style="color: var(--primary); font-weight: bold;">R$ ${p.valTotalComDesconto.toFixed(2)}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            `;
+            wrapper.appendChild(table);
+        }
+
+        /**
+         * Extrator de alta precisão baseado em Faixas Horizontais (Intervals) e Multi-linha:
+         */
+        function extractProductsFromRows(rows, pattern) {
+            const produtos = [];
+            const intervals = pattern.intervals || buildIntervalsFromXPositions(pattern.xPositions);
+            const mappings = pattern.mappings || {};
+            const allowMultiline = pattern.allowMultiline !== false;
+
+            rows.forEach((row, rIdx) => {
+                // Alinhar células da linha com as colunas do padrão através dos intervalos X
+                const aligned = {};
+                intervals.forEach((inter, colIdx) => {
+                    const matchingCells = row.celulas.filter(c => {
+                        const cMid = c.x + ((c.width || 10) / 2);
+                        return (cMid >= inter.xMin && cMid <= inter.xMax) || (c.x >= inter.xMin && c.x <= inter.xMax);
+                    });
+                    if (matchingCells.length > 0) {
+                        aligned[colIdx] = matchingCells.map(c => c.texto).join(' ').trim();
+                    }
+                });
+
+                let nome = '';
+                let un = '';
+                let qtd = 0;
+                let valUnit = 0;
+                let valTotal = 0;
+                let desconto = 0;
+                let valTotalComDesconto = 0;
+
+                let hasNome = false, hasUn = false, hasQtd = false, hasValUnit = false;
+
+                Object.entries(mappings).forEach(([colIdxStr, role]) => {
+                    const colIdx = parseInt(colIdxStr);
+                    const txt = aligned[colIdx] || '';
+
+                    if (role === 'nome') {
+                        nome = txt;
+                        hasNome = !!txt;
+                    } else if (role === 'un') {
+                        un = txt;
+                        hasUn = !!txt;
+                    } else if (role === 'qtd') {
+                        qtd = parseFloat(txt.replace(/\./g, '').replace(',', '.')) || 0;
+                        hasQtd = qtd > 0;
+                    } else if (role === 'valUnit') {
+                        valUnit = parseFloat(txt.replace(/R\$\s*/gi, '').replace(/\./g, '').replace(',', '.')) || 0;
+                        hasValUnit = valUnit > 0;
+                    } else if (role === 'valTotal') {
+                        valTotal = parseFloat(txt.replace(/R\$\s*/gi, '').replace(/\./g, '').replace(',', '.')) || 0;
+                    } else if (role === 'desconto') {
+                        desconto = parseFloat(txt.replace(/R\$\s*/gi, '').replace(/\./g, '').replace(',', '.')) || 0;
+                    } else if (role === 'valTotalComDesconto') {
+                        valTotalComDesconto = parseFloat(txt.replace(/R\$\s*/gi, '').replace(/\./g, '').replace(',', '.')) || 0;
+                    }
+                });
+
+                if (!valTotal) {
+                    valTotal = qtd * valUnit;
+                }
+                if (!valTotalComDesconto) {
+                    valTotalComDesconto = valTotal - desconto;
+                }
+
+                if (hasNome && hasUn && hasQtd && hasValUnit) {
+                    produtos.push({
+                        nome: nome.substring(0, 120),
+                        un: un,
+                        qtd: qtd,
+                        valUnit: valUnit,
+                        valTotal: valTotal,
+                        desconto: desconto,
+                        valTotalComDesconto: valTotalComDesconto
+                    });
+                } else if (allowMultiline && produtos.length > 0 && hasNome && !hasUn && !hasQtd && !hasValUnit) {
+                    // Linha de continuação da descrição anterior!
+                    produtos[produtos.length - 1].nome += " " + nome;
+                }
+            });
+
+            return produtos;
+        }
+
+        function buildIntervalsFromXPositions(xPositions) {
+            if (!xPositions || xPositions.length === 0) return [];
+            const intervals = [];
+            for (let i = 0; i < xPositions.length; i++) {
+                const cur = xPositions[i];
+                const left = (i === 0) ? Math.max(0, cur - 30) : Math.round((xPositions[i - 1] + cur) / 2);
+                const right = (i === xPositions.length - 1) ? cur + 80 : Math.round((cur + xPositions[i + 1]) / 2);
+                intervals.push({
+                    colIndex: i,
+                    tplX: cur,
+                    xMin: left,
+                    xMax: right
+                });
+            }
+            return intervals;
+        }
+
+        // ==========================================
+        // 5. SALVAR PADRÃO
+        // ==========================================
+        function saveNewPattern() {
+            const name = patternNameInput.value.trim();
+            if (!name) {
+                showToast("Digite um nome para o padrão", "error");
+                return;
+            }
+
+            let hasNome = false, hasUn = false, hasQtd = false, hasValUnit = false;
+            Object.values(columnMappings).forEach(role => {
+                if (role === 'nome') hasNome = true;
+                if (role === 'un') hasUn = true;
+                if (role === 'qtd') hasQtd = true;
+                if (role === 'valUnit') hasValUnit = true;
+            });
+
+            if (!hasNome || !hasUn || !hasQtd || !hasValUnit) {
+                showToast("Mapeie pelo menos Nome, Unidade, Quantidade e Valor Unitário", "error");
+                return;
+            }
+
+            const selectedIndices = Array.from(selectedRowIndices).sort((a, b) => a - b);
+            const templateRow = pdfRows[selectedIndices[0]];
+            const xPositions = templateRow.celulas.map(c => c.x);
+
+            const newPattern = {
+                name: name,
+                version: 2,
+                intervals: columnIntervals,
+                xPositions: xPositions, // retrocompatibilidade
+                mappings: columnMappings,
+                allowMultiline: patternMultilineCheck.checked,
+                created_at: new Date().toISOString()
+            };
+
+            customPatterns.push(newPattern);
+            savePatterns();
+            modal.classList.remove('visible');
+            showToast("Novo padrão salvo com sucesso!", "success");
+        }
+
+        function resetWorkflow() {
+            currentStep = 1;
+            selectedPdfData = null;
+            pdfRows = [];
+            selectedRowIndices.clear();
+            columnMappings = {};
+            columnIntervals = [];
+            patternNameInput.value = '';
+            pdfDropzone.style.display = 'flex';
+            loadingPdf.style.display = 'none';
+            renderStep(1);
+        }
+
+        // ==========================================
+        // 6. SIMULADOR E TESTADOR DE PDF REAL
+        // ==========================================
+        simDropzone.addEventListener('click', () => simFileInput.click());
+        simFileInput.addEventListener('change', (e) => handleSimFile(e.target.files[0]));
+
+        simDropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            simDropzone.style.borderColor = 'var(--primary)';
+        });
+        simDropzone.addEventListener('dragleave', () => {
+            simDropzone.style.borderColor = 'var(--border)';
+        });
+        simDropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            simDropzone.style.borderColor = 'var(--border)';
+            if (e.dataTransfer.files.length > 0) {
+                handleSimFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        async function handleSimFile(file) {
+            if (!file || file.type !== 'application/pdf') {
+                showToast("Selecione um arquivo PDF válido para o simulador.", "error");
+                return;
+            }
+
+            simLoading.style.display = 'block';
+            simResults.style.display = 'none';
+            simLogBox.textContent = '';
+
+            const logs = [];
+            const addLog = (msg) => {
+                logs.push(`[${new Date().toLocaleTimeString()}] ${msg}`);
+                simLogBox.textContent = logs.join('\n');
+            };
+
+            try {
+                addLog(`Iniciando leitura do arquivo: ${file.name}`);
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                addLog(`PDF carregado com sucesso. Total de páginas: ${pdf.numPages}`);
+
+                let todosItems = [];
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const content = await page.getTextContent();
+                    todosItems = todosItems.concat(content.items.map(item => ({
+                        str: item.str,
+                        transform: item.transform,
+                        width: item.width || (item.str.length * 5),
+                        pageNumber: i
+                    })));
+                }
+                addLog(`Total de itens de texto extraídos: ${todosItems.length}`);
+
+                // Agrupar linhas com Fuzzy Y-clustering
+                const rows = clusterItemsByPageAndY(todosItems);
+                addLog(`Linhas visuais reconstruídas: ${rows.length}`);
+
+                // Determinar padrões a testar
+                const selectedPatVal = simPatternSelect.value;
+                let patternsToTry = [];
+                if (selectedPatVal === 'auto') {
+                    patternsToTry = [...customPatterns];
+                } else {
+                    const idx = parseInt(selectedPatVal);
+                    if (customPatterns[idx]) patternsToTry = [customPatterns[idx]];
+                }
+
+                addLog(`Testando contra ${patternsToTry.length} padrão(ões) personalizado(s)...`);
+
+                let bestPattern = null;
+                let bestProdutos = [];
+                let matchedPatternName = 'Extrator Geral DANFE';
+
+                // Tentar cada padrão
+                for (const pat of patternsToTry) {
+                    const prods = extractProductsFromRows(rows, pat);
+                    if (prods.length > 0 && prods.length >= bestProdutos.length) {
+                        bestProdutos = prods;
+                        bestPattern = pat;
+                        matchedPatternName = pat.name;
+                    }
+                }
+
+                // Se não casou com nenhum personalizado ou lista vazia, tentar o extrator DANFE padrão
+                if (bestProdutos.length === 0) {
+                    addLog("Nenhum padrão personalizado casou. Tentando extrator heurístico padrão DANFE...");
+                    bestProdutos = extractGenericDanfe(rows);
+                    if (bestProdutos.length > 0) {
+                        matchedPatternName = "Extrator Heurístico Geral (DANFE Padrão)";
+                    }
+                }
+
+                addLog(`Resultado final: ${bestProdutos.length} produto(s) extraído(s) usando "${matchedPatternName}"`);
+
+                // Exibir na UI
+                simFileName.textContent = file.name;
+                simMatchBadge.textContent = matchedPatternName;
+                simMatchBadge.className = `badge ${bestProdutos.length > 0 ? 'badge-success' : 'badge-warning'}`;
+                simProdCount.textContent = bestProdutos.length;
+
+                const totalLiquido = bestProdutos.reduce((acc, p) => acc + (p.valTotalComDesconto || 0), 0);
+                simTotalSum.textContent = `R$ ${totalLiquido.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+                simTbody.innerHTML = '';
+                if (bestProdutos.length === 0) {
+                    simTbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:#f87171; padding:20px;">Nenhum produto foi extraído desta nota. Cadastre um novo padrão para ela!</td></tr>`;
+                } else {
+                    bestProdutos.forEach((p, idx) => {
+                        simTbody.innerHTML += `
+                            <tr>
+                                <td>${idx + 1}</td>
+                                <td style="font-weight:600; color:white;">${escapeHtml(p.nome)}</td>
+                                <td>${escapeHtml(p.un)}</td>
+                                <td>${p.qtd}</td>
+                                <td>R$ ${p.valUnit.toFixed(4).replace('.', ',')}</td>
+                                <td>R$ ${p.valTotal.toFixed(2).replace('.', ',')}</td>
+                                <td>R$ ${p.desconto.toFixed(2).replace('.', ',')}</td>
+                                <td style="color:var(--primary); font-weight:bold;">R$ ${p.valTotalComDesconto.toFixed(2).replace('.', ',')}</td>
+                            </tr>
+                        `;
+                    });
+                }
+
+                simLoading.style.display = 'none';
+                simResults.style.display = 'flex';
+                showToast(`Extração concluída: ${bestProdutos.length} produto(s) encontrado(s)!`, "success");
+
+            } catch (err) {
+                simLoading.style.display = 'none';
+                addLog("ERRO CRÍTICO: " + err.message);
+                showToast("Erro ao testar extração: " + err.message, "error");
+            }
+        }
+
+        function extractGenericDanfe(rows) {
+            const produtos = [];
+            rows.forEach(r => {
+                const celulas = r.celulas.map(c => c.texto.trim());
+                if (celulas.length < 4) return;
+
+                const idxUn = celulas.findIndex(c => UN_REGEX.test(c));
+                if (idxUn === -1) return;
+
+                const un = celulas[idxUn];
+                const celulasDepois = celulas.slice(idxUn + 1);
+                const valores = [];
+                celulasDepois.forEach(c => {
+                    const strVal = c.replace(/R\$\s*/gi, '').trim();
+                    if (/^-?[\d.,]+$/.test(strVal)) {
+                        valores.push(strVal);
+                    }
+                });
+
+                if (valores.length >= 2) {
+                    const qtdNum = parseFloat(valores[0].replace(/\./g, '').replace(',', '.')) || 0;
+                    const vuNum = parseFloat(valores[1].replace(/\./g, '').replace(',', '.')) || 0;
+                    let vtNum = (valores.length >= 3) ? (parseFloat(valores[2].replace(/\./g, '').replace(',', '.')) || (qtdNum * vuNum)) : (qtdNum * vuNum);
+                    
+                    const celulasAntes = celulas.slice(0, idxUn);
+                    let nomeCandidates = [];
+                    celulasAntes.forEach(c => {
+                        // Ignorar códigos numéricos (NCM 8 dígitos, CST 3 dígitos, CFOP 4 dígitos)
+                        if (/^\d+$/.test(c)) return;
+                        if (c.length > 1) nomeCandidates.push(c);
+                    });
+
+                    let nome = "";
+                    if (nomeCandidates.length > 1 && /^[A-Z0-9_-]{4,15}$/i.test(nomeCandidates[0])) {
+                        // Primeiro é código de produto (ex: MP0160001), o segundo é a descrição real
+                        nome = nomeCandidates.slice(1).join(' ').trim();
+                    } else if (nomeCandidates.length > 0) {
+                        nome = nomeCandidates.join(' ').trim();
+                    }
+
+                    if (nome && qtdNum > 0 && vuNum > 0) {
+                        produtos.push({
+                            nome: nome,
+                            un: un,
+                            qtd: qtdNum,
+                            valUnit: vuNum,
+                            valTotal: vtNum,
+                            desconto: 0,
+                            valTotalComDesconto: vtNum
+                        });
+                    }
+                }
+            });
+            return produtos;
+        }
+
+        // ==========================================
+        // 7. IMPORTAÇÃO E EXPORTAÇÃO JSON
+        // ==========================================
+        btnExport.addEventListener('click', () => {
+            if (customPatterns.length === 0) {
+                showToast("Nenhum padrão cadastrado para exportar", "error");
+                return;
+            }
+            const dataStr = JSON.stringify(customPatterns, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+            const link = document.createElement('a');
+            link.setAttribute('href', dataUri);
+            link.setAttribute('download', 'caf_nfe_custom_patterns.json');
+            link.click();
+            showToast("Padrões exportados com sucesso!", "success");
+        });
+
+        btnImport.addEventListener('click', () => importFileInput.click());
+        importFileInput.addEventListener('change', (e) => {
+            if (e.target.files.length === 0) return;
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                try {
+                    const parsed = JSON.parse(event.target.result);
+                    if (Array.isArray(parsed)) {
+                        const valid = parsed.every(p => p.name && (p.xPositions || p.intervals) && p.mappings);
+                        if (valid) {
+                            customPatterns = customPatterns.concat(parsed);
+                            savePatterns();
+                            showToast(`${parsed.length} padrão(ões) importado(s) com sucesso!`, "success");
+                        } else {
+                            throw new Error("Formato do arquivo JSON inválido.");
+                        }
+                    } else {
+                        throw new Error("Arquivo deve conter uma lista [] de padrões.");
+                    }
+                } catch(err) {
+                    showToast("Erro ao importar: " + err.message, "error");
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        // Helpers
+        function showToast(text, type = "success") {
+            const toast = document.getElementById('toast');
+            const toastText = document.getElementById('toast-text');
+            toastText.textContent = text;
+            toast.className = `toast show toast-${type}`;
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // Initialize
+        loadPatterns();
+    </script>
+</body>
+</html>
